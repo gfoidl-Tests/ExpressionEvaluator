@@ -17,10 +17,11 @@ namespace ExpressionEvaluator
             {
                 var parts = expression.Split('+');
 
-                Expression sum = Expression.Add(
-                    Expression.Constant(double.Parse(parts[0])),
-                    Expression.Constant(double.Parse(parts[1]))
-                );
+                Expression sum = Expression.Constant(double.Parse(parts[0]));
+
+                for (int i = 1; i < parts.Length; ++i)
+                    sum = Expression.Add(sum, Expression.Constant(double.Parse(parts[i])));
+
                 var lambda = Expression.Lambda<Func<double>>(sum);
                 var compiled = lambda.Compile();
                 return compiled();

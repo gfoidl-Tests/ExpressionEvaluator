@@ -43,5 +43,17 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
 
             Assert.AreEqual(2.7 + 3.2, actual, 1e-10);
         }
+        //---------------------------------------------------------------------
+        [Test]
+        public void Add_more_than_two_numbers___OK()
+        {
+            string expression = "1+2+3";
+
+            var sut = new BasicExpressionEvaluator();
+
+            double actual = sut.Evaluate(expression);
+
+            Assert.AreEqual(6, actual, 1e-10);
+        }
     }
 }
