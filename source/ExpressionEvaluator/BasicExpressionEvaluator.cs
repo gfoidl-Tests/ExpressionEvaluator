@@ -9,6 +9,9 @@ namespace ExpressionEvaluator
 {
     public class BasicExpressionEvaluator
     {
+        private readonly Stack<Expression> _expressionStack = new Stack<Expression>();
+        private readonly Stack<Operation>  _operationStack  = new Stack<Operation>();
+        //---------------------------------------------------------------------
         static BasicExpressionEvaluator()
         {
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
@@ -18,9 +21,10 @@ namespace ExpressionEvaluator
         {
             if (string.IsNullOrWhiteSpace(expression)) return 0;
 
-            var expressionStack = new Stack<Expression>();
-            var operationStack  = new Stack<Operation>();
-            var sr              = new StringReader(expression);
+            _expressionStack.Clear();
+            _operationStack .Clear();
+
+            var sr = new StringReader(expression);
             int peek;
 
             while ((peek = sr.Peek()) > -1)
@@ -29,7 +33,7 @@ namespace ExpressionEvaluator
 
                 if (char.IsDigit(next))
                 {
-                    expressionStack.Push(this.ReadOperand(sr));
+                    _expressionStack.Push(this.ReadOperand(sr));
                     continue;
                 }
 
@@ -37,27 +41,11 @@ namespace ExpressionEvaluator
                 {
                     Operation currentOperation = this.ReadOperation(sr);
 
-                    while (true)
-                    {
-                        if (operationStack.Count == 0)
-                        {
-                            operationStack.Push((Operation)next);
-                            break;
-                        }
+                    this.EvaluateWhile(() =>
+                        _operationStack.Count > 0
+                        && currentOperation.Precedence <= _operationStack.Peek().Precedence);
 
-                        var lastOperation = operationStack.Peek();
-
-                        if (currentOperation.Precedence > lastOperation.Precedence)
-                        {
-                            operationStack.Push((Operation)next);
-                            break;
-                        }
-
-                        Expression right = expressionStack.Pop();
-                        Expression left  = expressionStack.Pop();
-
-                        expressionStack.Push(operationStack.Pop().Apply(left, right));
-                    }
+                    _operationStack.Push((Operation)next);
                     continue;
                 }
 
@@ -71,21 +59,15 @@ namespace ExpressionEvaluator
                     throw new ArgumentException("Invalid character encountered", nameof(expression));
             }
 
-            while (operationStack.Count > 0)
-            {
-                Expression right = expressionStack.Pop();
-                Expression left  = expressionStack.Pop();
+            this.EvaluateWhile(() => _operationStack.Count > 0);
 
-                expressionStack.Push(operationStack.Pop().Apply(left, right));
-            }
-
-            var compiled = Expression.Lambda<Func<double>>(expressionStack.Pop()).Compile();
+            var compiled = Expression.Lambda<Func<double>>(_expressionStack.Pop()).Compile();
             return compiled();
         }
         //---------------------------------------------------------------------
         private Expression ReadOperand(StringReader sr)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             int peek;
 
             while ((peek = sr.Peek()) > -1)
@@ -108,6 +90,17 @@ namespace ExpressionEvaluator
         {
             char operation = (char)sr.Read();
             return (Operation)operation;
+        }
+        //---------------------------------------------------------------------
+        private void EvaluateWhile(Func<bool> condition)
+        {
+            while (condition())
+            {
+                Expression right = _expressionStack.Pop();
+                Expression left  = _expressionStack.Pop();
+
+                _expressionStack.Push(_operationStack.Pop().Apply(left, right));
+            }
         }
     }
 }
