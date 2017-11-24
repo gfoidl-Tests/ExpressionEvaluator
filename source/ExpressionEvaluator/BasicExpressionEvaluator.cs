@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -7,51 +8,33 @@ namespace ExpressionEvaluator
 {
     public class BasicExpressionEvaluator
     {
+        private static Dictionary<char, Func<Expression, Expression, Expression>> _operations;
+        //---------------------------------------------------------------------
         static BasicExpressionEvaluator()
         {
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+
+            _operations = new Dictionary<char, Func<Expression, Expression, Expression>>
+            {
+                ['+'] = Expression.Add,
+                ['-'] = Expression.Subtract,
+                ['*'] = Expression.Multiply,
+                ['/'] = Expression.Divide
+            };
         }
         //---------------------------------------------------------------------
         public double Evaluate(string expression)
         {
-            if (expression.Contains("+"))
+            foreach (var operation in _operations)
             {
-                var parts = expression.Split('+');
+                if (expression.Contains(operation.Key))
+                {
+                    var parts      = expression.Split(operation.Key);
+                    Expression res = Expression.Constant(this.Evaluate(parts[0]));
+                    res            = parts.Skip(1).Aggregate(res, (current, next) => operation.Value(current, Expression.Constant(this.Evaluate(next))));
 
-                Expression res = Expression.Constant(this.Evaluate(parts[0]));
-                res = parts.Skip(1).Aggregate(res, (current, next) => Expression.Add(current, Expression.Constant(this.Evaluate(next))));
-
-                return this.CompileExpression(res);
-            }
-
-            if (expression.Contains("-"))
-            {
-                var parts = expression.Split('-');
-
-                Expression res = Expression.Constant(this.Evaluate(parts[0]));
-                res = parts.Skip(1).Aggregate(res, (current, next) => Expression.Subtract(current, Expression.Constant(this.Evaluate(next))));
-
-                return this.CompileExpression(res);
-            }
-
-            if (expression.Contains("*"))
-            {
-                var parts = expression.Split('*');
-
-                Expression res = Expression.Constant(this.Evaluate(parts[0]));
-                res = parts.Skip(1).Aggregate(res, (current, next) => Expression.Multiply(current, Expression.Constant(this.Evaluate(next))));
-
-                return this.CompileExpression(res);
-            }
-
-            if (expression.Contains("/"))
-            {
-                var parts = expression.Split('/');
-
-                Expression res = Expression.Constant(this.Evaluate(parts[0]));
-                res = parts.Skip(1).Aggregate(res, (current, next) => Expression.Divide(current, Expression.Constant(this.Evaluate(next))));
-
-                return this.CompileExpression(res);
+                    return CompileExpression(res);
+                }
             }
 
             double value = 0;
@@ -60,10 +43,10 @@ namespace ExpressionEvaluator
             return value;
         }
         //---------------------------------------------------------------------
-        private double CompileExpression(Expression expression)
+        private static double CompileExpression(Expression expression)
         {
             Expression<Func<double>> lambda = Expression.Lambda<Func<double>>(expression);
-            Func<double> compiled = lambda.Compile();
+            Func<double> compiled           = lambda.Compile();
             return compiled();
         }
     }
