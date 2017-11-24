@@ -117,5 +117,18 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
             yield return new TestCaseData("(4*(3+5)-4-8/2-(6-4)/2)*((2+4)*4-(8-5)/3)-5", (4 * (3 + 5) - 4 - 8 / 2 - (6 - 4) / 2) * ((2 + 4) * 4 - (8 - 5) / 3) - 5);
             yield return new TestCaseData("(((9-6/2)*2-4)/2-6-1)/(2+24/(2+4))", (((9 - 6 / 2) * 2 - 4) / 2d - 6 - 1) / (2 + 24 / (2 + 4)));
         }
+        //---------------------------------------------------------------------
+        [Test]
+        public void Simple_variable___OK()
+        {
+            double a          = Math.PI;
+            string expression = "a";
+
+            var sut = new BasicExpressionEvaluator();
+
+            double actual = sut.Evaluate(expression, a);
+
+            Assert.AreEqual(Math.PI, actual, 1e-10);
+        }
     }
 }

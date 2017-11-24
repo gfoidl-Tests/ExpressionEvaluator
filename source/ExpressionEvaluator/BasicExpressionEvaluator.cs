@@ -9,18 +9,20 @@ namespace ExpressionEvaluator
 {
     public class BasicExpressionEvaluator
     {
-        private readonly Stack<Expression> _expressionStack = new Stack<Expression>();
-        private readonly Stack<Symbol>     _operationStack  = new Stack<Symbol>();
+        private readonly List<ParameterExpression> _parameters      = new List<ParameterExpression>();
+        private readonly Stack<Expression>         _expressionStack = new Stack<Expression>();
+        private readonly Stack<Symbol>             _operationStack  = new Stack<Symbol>();
         //---------------------------------------------------------------------
         static BasicExpressionEvaluator()
         {
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
         }
         //---------------------------------------------------------------------
-        public double Evaluate(string expression)
+        public double Evaluate(string expression, double variable = 0)
         {
             if (string.IsNullOrWhiteSpace(expression)) return 0;
 
+            _parameters     .Clear();
             _expressionStack.Clear();
             _operationStack .Clear();
 
@@ -34,6 +36,14 @@ namespace ExpressionEvaluator
                 if (char.IsDigit(next))
                 {
                     _expressionStack.Push(this.ReadOperand(sr));
+                    continue;
+                }
+
+                if (char.IsLetter(next))
+                {
+                    ParameterExpression parameterExpression = this.ReadParameter(sr);
+                    _parameters.Add(parameterExpression);
+                    _expressionStack.Push(parameterExpression);
                     continue;
                 }
 
@@ -77,8 +87,16 @@ namespace ExpressionEvaluator
 
             this.EvaluateWhile(() => _operationStack.Count > 0);
 
-            var compiled = Expression.Lambda<Func<double>>(_expressionStack.Pop()).Compile();
-            return compiled();
+            if (_parameters.Count == 0)
+            {
+                var compiled = Expression.Lambda<Func<double>>(_expressionStack.Pop()).Compile();
+                return compiled();
+            }
+            else
+            {
+                var compiled = Expression.Lambda<Func<double, double>>(_expressionStack.Pop(), _parameters).Compile();
+                return compiled(variable);
+            }
         }
         //---------------------------------------------------------------------
         private Expression ReadOperand(StringReader sr)
@@ -106,6 +124,27 @@ namespace ExpressionEvaluator
         {
             char operation = (char)sr.Read();
             return (Operation)operation;
+        }
+        //---------------------------------------------------------------------
+        private ParameterExpression ReadParameter(StringReader sr)
+        {
+            var sb = new StringBuilder();
+            int peek;
+
+            while ((peek = sr.Peek()) > -1)
+            {
+                char next = (char)peek;
+
+                if (char.IsLetter(next))
+                {
+                    sr.Read();
+                    sb.Append(next);
+                }
+                else
+                    break;
+            }
+
+            return Expression.Parameter(typeof(double), sb.ToString());
         }
         //---------------------------------------------------------------------
         private void EvaluateWhile(Func<bool> condition)
