@@ -77,5 +77,22 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
 
             Assert.AreEqual(2, actual, 1e-10);
         }
+        //---------------------------------------------------------------------
+        [Test, TestCaseSource(nameof(Add_and_subtract___OK_TestCases))]
+        public void Add_and_subtract___OK(string expression, double expected)
+        {
+            var sut = new BasicExpressionEvaluator();
+
+            double actual = sut.Evaluate(expression);
+
+            Assert.AreEqual(expected, actual, 1e-10);
+        }
+        //---------------------------------------------------------------------
+        private static IEnumerable<TestCaseData> Add_and_subtract___OK_TestCases()
+        {
+            yield return new TestCaseData("15+8-4-2+7", 15 + 8 - 4 - 2 + 7);
+            yield return new TestCaseData("17.89-2.47+7.16", 17.89 - 2.47 + 7.16);
+            yield return new TestCaseData("12-3.4+1.2", 12 - 3.4 + 1.2);
+        }
     }
 }

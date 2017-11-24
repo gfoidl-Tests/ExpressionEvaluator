@@ -19,7 +19,7 @@ namespace ExpressionEvaluator
                 var parts = expression.Split('+');
 
                 Expression res = Expression.Constant(0d);
-                res = parts.Aggregate(res, (current, next) => Expression.Add(current, Expression.Constant(double.Parse(next))));
+                res = parts.Aggregate(res, (current, next) => Expression.Add(current, Expression.Constant(this.Evaluate(next))));
 
                 return this.CompileExpression(res);
             }
