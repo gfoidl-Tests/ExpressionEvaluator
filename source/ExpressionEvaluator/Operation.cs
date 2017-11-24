@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 namespace ExpressionEvaluator
 {
     [DebuggerDisplay("{Name}")]
-    internal sealed class Operation
+    internal sealed class Operation : Symbol
     {
         private readonly Func<Expression, Expression, Expression> _operation;
         private static readonly Dictionary<char, Operation>       _operations;
@@ -16,7 +16,6 @@ namespace ExpressionEvaluator
         public static readonly Operation Multiplication = new Operation(Expression.Multiply, 2, nameof(Multiplication));
         public static readonly Operation Division       = new Operation(Expression.Divide  , 2, nameof(Division));
         //---------------------------------------------------------------------
-        public string Name    { get; }
         public int Precedence { get; }
         //---------------------------------------------------------------------
         static Operation()
@@ -31,8 +30,8 @@ namespace ExpressionEvaluator
         }
         //---------------------------------------------------------------------
         private Operation(Func<Expression, Expression, Expression> operation, int precedence, string name)
+            : base(name)
         {
-            this.Name       = name;
             this.Precedence = precedence;
             _operation      = operation;
         }

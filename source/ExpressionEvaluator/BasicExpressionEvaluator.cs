@@ -10,7 +10,7 @@ namespace ExpressionEvaluator
     public class BasicExpressionEvaluator
     {
         private readonly Stack<Expression> _expressionStack = new Stack<Expression>();
-        private readonly Stack<Operation>  _operationStack  = new Stack<Operation>();
+        private readonly Stack<Symbol>     _operationStack  = new Stack<Symbol>();
         //---------------------------------------------------------------------
         static BasicExpressionEvaluator()
         {
@@ -43,9 +43,25 @@ namespace ExpressionEvaluator
 
                     this.EvaluateWhile(() =>
                         _operationStack.Count > 0
-                        && currentOperation.Precedence <= _operationStack.Peek().Precedence);
+                        && _operationStack.Peek() != Paranthesis.Left
+                        && currentOperation.Precedence <= (_operationStack.Peek() as Operation).Precedence);
 
                     _operationStack.Push((Operation)next);
+                    continue;
+                }
+
+                if (next=='(')
+                {
+                    sr.Read();
+                    _operationStack.Push(Paranthesis.Left);
+                    continue;
+                }
+
+                if (next==')')
+                {
+                    sr.Read();
+                    this.EvaluateWhile(() => _operationStack.Count > 0 && _operationStack.Peek() != Paranthesis.Left);
+                    _operationStack.Pop();
                     continue;
                 }
 
@@ -99,7 +115,7 @@ namespace ExpressionEvaluator
                 Expression right = _expressionStack.Pop();
                 Expression left  = _expressionStack.Pop();
 
-                _expressionStack.Push(_operationStack.Pop().Apply(left, right));
+                _expressionStack.Push((_operationStack.Pop() as Operation).Apply(left, right));
             }
         }
     }
