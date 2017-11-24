@@ -55,5 +55,27 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
 
             Assert.AreEqual(6, actual, 1e-10);
         }
+        //---------------------------------------------------------------------
+        [Test]
+        public void Subtract_two_numbers___OK([Values("2.7-3.2", "2.7 - 3.2")]string expression)
+        {
+            var sut = new BasicExpressionEvaluator();
+
+            double actual = sut.Evaluate(expression);
+
+            Assert.AreEqual(2.7 - 3.2, actual, 1e-10);
+        }
+        //---------------------------------------------------------------------
+        [Test]
+        public void Subtract_more_than_two_numbers___OK()
+        {
+            string expression = "6-3-1";
+
+            var sut = new BasicExpressionEvaluator();
+
+            double actual = sut.Evaluate(expression);
+
+            Assert.AreEqual(2, actual, 1e-10);
+        }
     }
 }

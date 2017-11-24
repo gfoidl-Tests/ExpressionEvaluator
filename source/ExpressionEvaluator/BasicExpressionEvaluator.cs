@@ -18,18 +18,33 @@ namespace ExpressionEvaluator
             {
                 var parts = expression.Split('+');
 
-                var sum = parts.Aggregate(Expression.Constant(0d) as Expression,
-                    (current, next) => Expression.Add(current, Expression.Constant(double.Parse(next))));
+                Expression res = Expression.Constant(0d);
+                res = parts.Aggregate(res, (current, next) => Expression.Add(current, Expression.Constant(double.Parse(next))));
 
-                var lambda = Expression.Lambda<Func<double>>(sum);
-                var compiled = lambda.Compile();
-                return compiled();
+                return this.CompileExpression(res);
+            }
+
+            if (expression.Contains("-"))
+            {
+                var parts = expression.Split('-');
+
+                Expression res = Expression.Constant(double.Parse(parts[0]));
+                res = parts.Skip(1).Aggregate(res, (current, next) => Expression.Subtract(current, Expression.Constant(double.Parse(next))));
+
+                return this.CompileExpression(res);
             }
 
             double value = 0;
             double.TryParse(expression, out value);
 
             return value;
+        }
+        //---------------------------------------------------------------------
+        private double CompileExpression(Expression expression)
+        {
+            Expression<Func<double>> lambda = Expression.Lambda<Func<double>>(expression);
+            Func<double> compiled = lambda.Compile();
+            return compiled();
         }
     }
 }
