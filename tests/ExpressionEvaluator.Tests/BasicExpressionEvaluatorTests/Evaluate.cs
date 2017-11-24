@@ -94,5 +94,21 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
             yield return new TestCaseData("17.89-2.47+7.16", 17.89 - 2.47 + 7.16);
             yield return new TestCaseData("12-3.4+1.2", 12 - 3.4 + 1.2);
         }
+        //---------------------------------------------------------------------
+        [Test, TestCaseSource(nameof(Expression_given___OK_TestCases))]
+        public void Expression_given___OK(string expression, double expected)
+        {
+            var sut = new BasicExpressionEvaluator();
+
+            double actual = sut.Evaluate(expression);
+
+            Assert.AreEqual(expected, actual, 1e-10);
+        }
+        //---------------------------------------------------------------------
+        private static IEnumerable<TestCaseData> Expression_given___OK_TestCases()
+        {
+            yield return new TestCaseData("2+5*3", 2 + 5 * 3);
+            yield return new TestCaseData("10/3.1+2*5-12.32/5", 10 / 3.1 + 2 * 5 - 12.32 / 5);
+        }
     }
 }

@@ -18,8 +18,8 @@ namespace ExpressionEvaluator
             {
                 var parts = expression.Split('+');
 
-                Expression res = Expression.Constant(0d);
-                res = parts.Aggregate(res, (current, next) => Expression.Add(current, Expression.Constant(this.Evaluate(next))));
+                Expression res = Expression.Constant(this.Evaluate(parts[0]));
+                res = parts.Skip(1).Aggregate(res, (current, next) => Expression.Add(current, Expression.Constant(this.Evaluate(next))));
 
                 return this.CompileExpression(res);
             }
@@ -28,8 +28,28 @@ namespace ExpressionEvaluator
             {
                 var parts = expression.Split('-');
 
-                Expression res = Expression.Constant(double.Parse(parts[0]));
-                res = parts.Skip(1).Aggregate(res, (current, next) => Expression.Subtract(current, Expression.Constant(double.Parse(next))));
+                Expression res = Expression.Constant(this.Evaluate(parts[0]));
+                res = parts.Skip(1).Aggregate(res, (current, next) => Expression.Subtract(current, Expression.Constant(this.Evaluate(next))));
+
+                return this.CompileExpression(res);
+            }
+
+            if (expression.Contains("*"))
+            {
+                var parts = expression.Split('*');
+
+                Expression res = Expression.Constant(this.Evaluate(parts[0]));
+                res = parts.Skip(1).Aggregate(res, (current, next) => Expression.Multiply(current, Expression.Constant(this.Evaluate(next))));
+
+                return this.CompileExpression(res);
+            }
+
+            if (expression.Contains("/"))
+            {
+                var parts = expression.Split('/');
+
+                Expression res = Expression.Constant(this.Evaluate(parts[0]));
+                res = parts.Skip(1).Aggregate(res, (current, next) => Expression.Divide(current, Expression.Constant(this.Evaluate(next))));
 
                 return this.CompileExpression(res);
             }
