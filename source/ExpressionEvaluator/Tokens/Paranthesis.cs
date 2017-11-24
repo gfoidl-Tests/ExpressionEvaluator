@@ -1,4 +1,4 @@
-﻿namespace ExpressionEvaluator
+﻿namespace ExpressionEvaluator.Tokens
 {
     internal sealed class Paranthesis : Token
     {

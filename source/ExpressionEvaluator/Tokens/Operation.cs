@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq.Expressions;
 
-namespace ExpressionEvaluator
+namespace ExpressionEvaluator.Tokens
 {
     [DebuggerDisplay("{Name}")]
     internal sealed class Operation : Token

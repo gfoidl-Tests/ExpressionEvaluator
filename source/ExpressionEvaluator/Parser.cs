@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq.Expressions;
-using System.Text;
+using ExpressionEvaluator.Tokens;
 
 namespace ExpressionEvaluator
 {
@@ -12,7 +11,7 @@ namespace ExpressionEvaluator
         private readonly Stack<Expression> _expressionStack = new Stack<Expression>();
         private readonly Stack<Token>      _operationStack  = new Stack<Token>();
         //---------------------------------------------------------------------
-        public (Expression Tree, ParameterExpression Parameter) Parse(string expression)
+        public (Expression Tree, ParameterExpression Parameter) Parse(IEnumerable<Token> tokens)
         {
             _parameters     .Clear();
             _expressionStack.Clear();
@@ -20,120 +19,45 @@ namespace ExpressionEvaluator
 
             var arrayParameter = Expression.Parameter(typeof(double[]), "args");
 
-            var sr = new StringReader(expression);
-            int peek;
-
-            while ((peek = sr.Peek()) > -1)
+            foreach (Token token in tokens)
             {
-                char next = (char)peek;
-
-                if (char.IsDigit(next))
+                if (token is ValueToken value)
                 {
-                    _expressionStack.Push(this.ReadOperand(sr));
-                    continue;
+                    var expr = Expression.Constant(value.Value);
+                    _expressionStack.Push(expr);
                 }
-
-                if (char.IsLetter(next))
+                else if (token is ParameterToken parameter)
                 {
-                    Expression parameterExpression = this.ReadParameter(sr, arrayParameter);
-                    _expressionStack.Push(parameterExpression);
-                    continue;
+                    if (!_parameters.Contains(parameter.Parameter))
+                        _parameters.Add(parameter.Parameter);
+
+                    var expr = Expression.ArrayIndex(arrayParameter, Expression.Constant(_parameters.IndexOf(parameter.Parameter)));
+                    _expressionStack.Push(expr);
                 }
-
-                if (Operation.IsDefined(next))
+                else if (token is Operation operation)
                 {
-                    Operation currentOperation = this.ReadOperation(sr);
-
                     this.EvaluateWhile(() =>
                         _operationStack.Count > 0
                         && _operationStack.Peek() != Paranthesis.Left
-                        && currentOperation.Precedence <= (_operationStack.Peek() as Operation).Precedence);
+                        && operation.Precedence <= (_operationStack.Peek() as Operation).Precedence);
 
-                    _operationStack.Push((Operation)next);
-                    continue;
+                    _operationStack.Push(operation);
                 }
-
-                if (next == '(')
+                else if (token is Paranthesis paranthesis)
                 {
-                    sr.Read();
-                    _operationStack.Push(Paranthesis.Left);
-                    continue;
+                    if (paranthesis == Paranthesis.Left)
+                        _operationStack.Push(paranthesis);
+                    else
+                    {
+                        this.EvaluateWhile(() => _operationStack.Count > 0 && _operationStack.Peek() != Paranthesis.Left);
+                        _operationStack.Pop();
+                    }
                 }
-
-                if (next == ')')
-                {
-                    sr.Read();
-                    this.EvaluateWhile(() => _operationStack.Count > 0 && _operationStack.Peek() != Paranthesis.Left);
-                    _operationStack.Pop();
-                    continue;
-                }
-
-                if (next == ' ')
-                {
-                    sr.Read();
-                    continue;
-                }
-
-                if (next != ' ')
-                    throw new ArgumentException("Invalid character encountered", nameof(expression));
             }
 
             this.EvaluateWhile(() => _operationStack.Count > 0);
 
             return (_expressionStack.Pop(), arrayParameter);
-        }
-        //---------------------------------------------------------------------
-        private Expression ReadOperand(StringReader sr)
-        {
-            var sb = new StringBuilder();
-            int peek;
-
-            while ((peek = sr.Peek()) > -1)
-            {
-                char next = (char)peek;
-
-                if (char.IsDigit(next) || next == '.')
-                {
-                    sr.Read();
-                    sb.Append(next);
-                }
-                else
-                    break;
-            }
-
-            return Expression.Constant(double.Parse(sb.ToString()));
-        }
-        //---------------------------------------------------------------------
-        private Operation ReadOperation(StringReader sr)
-        {
-            char operation = (char)sr.Read();
-            return (Operation)operation;
-        }
-        //---------------------------------------------------------------------
-        private Expression ReadParameter(StringReader sr, Expression arrayParameter)
-        {
-            var sb = new StringBuilder();
-            int peek;
-
-            while ((peek = sr.Peek()) > -1)
-            {
-                char next = (char)peek;
-
-                if (char.IsLetter(next))
-                {
-                    sr.Read();
-                    sb.Append(next);
-                }
-                else
-                    break;
-            }
-
-            string parameter = sb.ToString();
-
-            if (!_parameters.Contains(parameter))
-                _parameters.Add(parameter);
-
-            return Expression.ArrayIndex(arrayParameter, Expression.Constant(_parameters.IndexOf(parameter)));
         }
         //---------------------------------------------------------------------
         private void EvaluateWhile(Func<bool> condition)

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace ExpressionEvaluator
+namespace ExpressionEvaluator.Tokens
 {
     [DebuggerDisplay("{Name}")]
     internal class Token
