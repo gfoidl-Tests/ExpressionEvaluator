@@ -1,0 +1,1 @@
+Based on [Building Expression Evaluator with Expression Trees in C# - Part 1](http://www.aboutmycode.com/net-framework/building-expression-evaluator-with-expression-trees-in-csharp-part-1/) ff.
