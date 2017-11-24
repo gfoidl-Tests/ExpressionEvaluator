@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace ExpressionEvaluator
@@ -17,10 +18,8 @@ namespace ExpressionEvaluator
             {
                 var parts = expression.Split('+');
 
-                Expression sum = Expression.Constant(double.Parse(parts[0]));
-
-                for (int i = 1; i < parts.Length; ++i)
-                    sum = Expression.Add(sum, Expression.Constant(double.Parse(parts[i])));
+                var sum = parts.Aggregate(Expression.Constant(0d) as Expression,
+                    (current, next) => Expression.Add(current, Expression.Constant(double.Parse(next))));
 
                 var lambda = Expression.Lambda<Func<double>>(sum);
                 var compiled = lambda.Compile();
