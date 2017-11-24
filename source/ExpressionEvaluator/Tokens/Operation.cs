@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 namespace ExpressionEvaluator
 {
     [DebuggerDisplay("{Name}")]
-    internal sealed class Operation : Symbol
+    internal sealed class Operation : Token
     {
         private readonly Func<Expression, Expression, Expression> _operation;
         private static readonly Dictionary<char, Operation>       _operations;

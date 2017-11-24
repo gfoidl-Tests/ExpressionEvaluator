@@ -3,10 +3,10 @@
 namespace ExpressionEvaluator
 {
     [DebuggerDisplay("{Name}")]
-    internal class Symbol
+    internal class Token
     {
         public string Name { get; }
         //---------------------------------------------------------------------
-        public Symbol(string name) => this.Name = name;
+        public Token(string name) => this.Name = name;
     }
 }

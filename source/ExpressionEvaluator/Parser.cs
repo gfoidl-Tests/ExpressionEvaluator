@@ -10,7 +10,7 @@ namespace ExpressionEvaluator
     {
         private readonly List<string>      _parameters      = new List<string>();
         private readonly Stack<Expression> _expressionStack = new Stack<Expression>();
-        private readonly Stack<Symbol>     _operationStack  = new Stack<Symbol>();
+        private readonly Stack<Token>      _operationStack  = new Stack<Token>();
         //---------------------------------------------------------------------
         public (Expression Tree, ParameterExpression Parameter) Parse(string expression)
         {

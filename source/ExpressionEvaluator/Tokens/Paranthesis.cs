@@ -1,6 +1,6 @@
 ﻿namespace ExpressionEvaluator
 {
-    internal sealed class Paranthesis : Symbol
+    internal sealed class Paranthesis : Token
     {
         public static readonly Paranthesis Left  = new Paranthesis("Left (");
         public static readonly Paranthesis Right = new Paranthesis("Right )");
