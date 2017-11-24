@@ -1,53 +1,113 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
+using System.IO;
 using System.Linq.Expressions;
+using System.Text;
 
 namespace ExpressionEvaluator
 {
     public class BasicExpressionEvaluator
     {
-        private static Dictionary<char, Func<Expression, Expression, Expression>> _operations;
-        //---------------------------------------------------------------------
         static BasicExpressionEvaluator()
         {
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
-
-            _operations = new Dictionary<char, Func<Expression, Expression, Expression>>
-            {
-                ['+'] = Expression.Add,
-                ['-'] = Expression.Subtract,
-                ['*'] = Expression.Multiply,
-                ['/'] = Expression.Divide
-            };
         }
         //---------------------------------------------------------------------
         public double Evaluate(string expression)
         {
-            foreach (var operation in _operations)
-            {
-                if (expression.Contains(operation.Key))
-                {
-                    var parts      = expression.Split(operation.Key);
-                    Expression res = Expression.Constant(this.Evaluate(parts[0]));
-                    res            = parts.Skip(1).Aggregate(res, (current, next) => operation.Value(current, Expression.Constant(this.Evaluate(next))));
+            if (string.IsNullOrWhiteSpace(expression)) return 0;
 
-                    return CompileExpression(res);
+            var expressionStack = new Stack<Expression>();
+            var operationStack  = new Stack<Operation>();
+            var sr              = new StringReader(expression);
+            int peek;
+
+            while ((peek = sr.Peek()) > -1)
+            {
+                char next = (char)peek;
+
+                if (char.IsDigit(next))
+                {
+                    expressionStack.Push(this.ReadOperand(sr));
+                    continue;
                 }
+
+                if (Operation.IsDefined(next))
+                {
+                    Operation currentOperation = this.ReadOperation(sr);
+
+                    while (true)
+                    {
+                        if (operationStack.Count == 0)
+                        {
+                            operationStack.Push((Operation)next);
+                            break;
+                        }
+
+                        var lastOperation = operationStack.Peek();
+
+                        if (currentOperation.Precedence > lastOperation.Precedence)
+                        {
+                            operationStack.Push((Operation)next);
+                            break;
+                        }
+
+                        Expression right = expressionStack.Pop();
+                        Expression left  = expressionStack.Pop();
+
+                        expressionStack.Push(operationStack.Pop().Apply(left, right));
+                    }
+                    continue;
+                }
+
+                if (next == ' ')
+                {
+                    sr.Read();
+                    continue;
+                }
+
+                if (next != ' ')
+                    throw new ArgumentException("Invalid character encountered", nameof(expression));
             }
 
-            double value = 0;
-            double.TryParse(expression, out value);
+            while (operationStack.Count > 0)
+            {
+                Expression right = expressionStack.Pop();
+                Expression left  = expressionStack.Pop();
 
-            return value;
+                expressionStack.Push(operationStack.Pop().Apply(left, right));
+            }
+
+            var compiled = Expression.Lambda<Func<double>>(expressionStack.Pop()).Compile();
+            return compiled();
         }
         //---------------------------------------------------------------------
-        private static double CompileExpression(Expression expression)
+        private Expression ReadOperand(StringReader sr)
         {
-            Expression<Func<double>> lambda = Expression.Lambda<Func<double>>(expression);
-            Func<double> compiled           = lambda.Compile();
-            return compiled();
+            StringBuilder sb = new StringBuilder();
+            int peek;
+
+            while ((peek = sr.Peek()) > -1)
+            {
+                char next = (char)peek;
+
+                if (char.IsDigit(next) || next == '.')
+                {
+                    sr.Read();
+                    sb.Append(next);
+                }
+                else
+                    break;
+            }
+
+            return Expression.Constant(double.Parse(sb.ToString()));
+        }
+        //---------------------------------------------------------------------
+        private Operation ReadOperation(StringReader sr)
+        {
+            char operation = (char)sr.Read();
+            return (Operation)operation;
         }
     }
 }
