@@ -1,17 +1,21 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
+namespace ExpressionEvaluator.Tests.ExpressionEvaluatorTests
 {
-    [TestFixture]
-    public class Paranthesis
+    [TestFixture(typeof(BasicExpressionEvaluator))]
+    [TestFixture(typeof(CachedExpressionEvaluator))]
+    public class Paranthesis<T> where T : ExpressionEvaluator, new()
     {
+        private ExpressionEvaluator _sut;
+        //---------------------------------------------------------------------
+        [SetUp]
+        public void SetUp() => _sut = new T();
+        //---------------------------------------------------------------------
         [Test, TestCaseSource(nameof(Expression_given___OK_TestCases))]
         public void Expression_given___OK(string expression, double expected)
         {
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression);
+            double actual = _sut.Evaluate(expression);
 
             Assert.AreEqual(expected, actual, 1e-10);
         }

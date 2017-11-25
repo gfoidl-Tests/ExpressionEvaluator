@@ -1,20 +1,24 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
+namespace ExpressionEvaluator.Tests.ExpressionEvaluatorTests
 {
-    [TestFixture]
-    public class Intrinsics
+    [TestFixture(typeof(BasicExpressionEvaluator))]
+    [TestFixture(typeof(CachedExpressionEvaluator))]
+    public class Intrinsics<T> where T : ExpressionEvaluator, new()
     {
+        private ExpressionEvaluator _sut;
+        //---------------------------------------------------------------------
+        [SetUp]
+        public void SetUp() => _sut = new T();
+        //---------------------------------------------------------------------
         [Test]
         public void Simple_sin___OK()
         {
             double x          = 0.8312;
             string expression = "sin(x)";
 
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression, x);
+            double actual = _sut.Evaluate(expression, x);
 
             Assert.AreEqual(Math.Sin(x), actual, 1e-10);
         }
@@ -25,9 +29,7 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
             double x          = 0.2344;
             string expression = "2*sin(x)";
 
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression, x);
+            double actual = _sut.Evaluate(expression, x);
 
             Assert.AreEqual(2 * Math.Sin(x), actual, 1e-10);
         }
@@ -37,9 +39,7 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
         {
             double x = 0.1234;
 
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression, x);
+            double actual = _sut.Evaluate(expression, x);
 
             Assert.AreEqual(2 * x + 3 * Math.Sin(x) / 2d, actual, 1e-10);
         }
@@ -50,9 +50,7 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
             double x          = 0.234353;
             string expression = "sin(cos(x))";
 
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression, x);
+            double actual = _sut.Evaluate(expression, x);
 
             Assert.AreEqual(Math.Sin(Math.Cos(x)), actual, 1e-10);
         }
@@ -64,9 +62,7 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
             double y          = 10.234;
             string expression = "2sin(x)/cos(y)*log(x*y)-10";
 
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression, x, y);
+            double actual = _sut.Evaluate(expression, x, y);
 
             Assert.AreEqual(2 * Math.Sin(x) / Math.Cos(y) * Math.Log(x * y) - 10, actual, 1e-10);
         }

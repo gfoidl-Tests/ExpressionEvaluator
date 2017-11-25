@@ -1,20 +1,24 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
+namespace ExpressionEvaluator.Tests.ExpressionEvaluatorTests
 {
-    [TestFixture]
-    public class Variables
+    [TestFixture(typeof(BasicExpressionEvaluator))]
+    [TestFixture(typeof(CachedExpressionEvaluator))]
+    public class Variables<T> where T : ExpressionEvaluator, new()
     {
+        private ExpressionEvaluator _sut;
+        //---------------------------------------------------------------------
+        [SetUp]
+        public void SetUp() => _sut = new T();
+        //---------------------------------------------------------------------
         [Test]
         public void Simple_variable___OK()
         {
             double a          = Math.PI;
             string expression = "a";
 
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression, a);
+            double actual = _sut.Evaluate(expression, a);
 
             Assert.AreEqual(Math.PI, actual, 1e-10);
         }
@@ -24,9 +28,7 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
         {
             double a = Math.PI;
 
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression, a);
+            double actual = _sut.Evaluate(expression, a);
 
             Assert.AreEqual(2 * a + 3 - 4 * a, actual, 1e-10);
         }
@@ -39,9 +41,7 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
             double c          = 24.15;
             string expression = "(((9-a/2)*2-b)/2-a-1)/(2+c/(2+4))";
 
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression, a, b, c);
+            double actual = _sut.Evaluate(expression, a, b, c);
 
             Assert.AreEqual((((9 - a / 2) * 2 - b) / 2 - a - 1) / (2 + c / (2 + 4)), actual, 1e-10);
         }
@@ -52,9 +52,7 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
             double a    = 234.234234;
             string expr = "x+y";
 
-            var sut = new BasicExpressionEvaluator();
-
-            Assert.Throws<ArgumentException>(() => sut.Evaluate(expr, a));
+            Assert.Throws<ArgumentException>(() => _sut.Evaluate(expr, a));
         }
     }
 }

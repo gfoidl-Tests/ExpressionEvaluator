@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
+namespace ExpressionEvaluator.Tests.ExpressionEvaluatorTests
 {
-    [TestFixture]
-    public class Basics
+    [TestFixture(typeof(BasicExpressionEvaluator))]
+    [TestFixture(typeof(CachedExpressionEvaluator))]
+    public class Basics<T> where T: ExpressionEvaluator, new()
     {
-        private Random _rnd = new Random();
+        private ExpressionEvaluator _sut;
+        private readonly Random     _rnd = new Random();
+        //---------------------------------------------------------------------
+        [SetUp]
+        public void SetUp() => _sut = new T();
         //---------------------------------------------------------------------
         [Test]
         public void Empty_string___is_NaN([Values("", " ", "\t")]string value)
         {
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(value);
+            double actual = _sut.Evaluate(value);
 
             Assert.AreEqual(double.NaN, actual);
         }
@@ -26,9 +29,7 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
             double right = _rnd.Next(1, 100);
             double input = left + right / 100d;
 
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(input.ToString());
+            double actual = _sut.Evaluate(input.ToString());
 
             Assert.AreEqual(input, actual, 1e-10);
         }
@@ -36,9 +37,7 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
         [Test]
         public void Add_two_numbers___OK([Values("2.7+3.2", "2.7 + 3.2")]string expression)
         {
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression);
+            double actual = _sut.Evaluate(expression);
 
             Assert.AreEqual(2.7 + 3.2, actual, 1e-10);
         }
@@ -48,9 +47,7 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
         {
             string expression = "1+2+3";
 
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression);
+            double actual = _sut.Evaluate(expression);
 
             Assert.AreEqual(6, actual, 1e-10);
         }
@@ -58,9 +55,7 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
         [Test]
         public void Subtract_two_numbers___OK([Values("2.7-3.2", "2.7 - 3.2")]string expression)
         {
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression);
+            double actual = _sut.Evaluate(expression);
 
             Assert.AreEqual(2.7 - 3.2, actual, 1e-10);
         }
@@ -70,9 +65,7 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
         {
             string expression = "6-3-1";
 
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression);
+            double actual = _sut.Evaluate(expression);
 
             Assert.AreEqual(2, actual, 1e-10);
         }
@@ -80,9 +73,7 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
         [Test, TestCaseSource(nameof(Add_and_subtract___OK_TestCases))]
         public void Add_and_subtract___OK(string expression, double expected)
         {
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression);
+            double actual = _sut.Evaluate(expression);
 
             Assert.AreEqual(expected, actual, 1e-10);
         }
@@ -102,9 +93,7 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
 
             string expression = "a^b";
 
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression, a, b);
+            double actual = _sut.Evaluate(expression, a, b);
 
             Assert.AreEqual(Math.Pow(a, b), actual, 1e-10);
         }
@@ -117,9 +106,7 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
 
             string expression = "a % b";
 
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression, a, b);
+            double actual = _sut.Evaluate(expression, a, b);
 
             Assert.AreEqual(a % b, actual, 1e-10);
         }

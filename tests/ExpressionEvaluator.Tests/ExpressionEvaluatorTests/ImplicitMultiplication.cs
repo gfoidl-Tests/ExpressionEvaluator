@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
+namespace ExpressionEvaluator.Tests.ExpressionEvaluatorTests
 {
-    [TestFixture]
-    public class ImplicitMultiplication
+    [TestFixture(typeof(BasicExpressionEvaluator))]
+    [TestFixture(typeof(CachedExpressionEvaluator))]
+    public class ImplicitMultiplication<T> where T : ExpressionEvaluator, new()
     {
+        private ExpressionEvaluator _sut;
+        //---------------------------------------------------------------------
+        [SetUp]
+        public void SetUp() => _sut = new T();
+        //---------------------------------------------------------------------
         [Test, TestCaseSource(nameof(Implicit_Multiplication___OK_TestCases))]
         public void Implicit_Multiplication___OK(string expression, double expected)
         {
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression);
+            double actual = _sut.Evaluate(expression);
 
             Assert.AreEqual(expected, actual, 1e-10);
         }
