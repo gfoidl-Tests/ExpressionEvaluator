@@ -158,5 +158,24 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
 
             Assert.AreEqual((((9 - a / 2) * 2 - b) / 2 - a - 1) / (2 + c / (2 + 4)), actual, 1e-10);
         }
+        //---------------------------------------------------------------------
+        [Test, TestCaseSource(nameof(Implicit_Multiplication___OK_TestCases))]
+        public void Implicit_Multiplication___OK(string expression, double expected)
+        {
+            double pi = Math.PI;
+
+            var sut = new BasicExpressionEvaluator();
+
+            double actual = sut.Evaluate(expression, pi);
+
+            Assert.AreEqual(expected, actual, 1e-10);
+        }
+        //---------------------------------------------------------------------
+        private static IEnumerable<TestCaseData> Implicit_Multiplication___OK_TestCases()
+        {
+            yield return new TestCaseData("2pi", 2 * Math.PI);
+            yield return new TestCaseData("(3+4)(2*pi)", (3 + 4) * (2 * Math.PI));
+            yield return new TestCaseData("(3+4)(2pi)", (3 + 4) * (2 * Math.PI));
+        }
     }
 }

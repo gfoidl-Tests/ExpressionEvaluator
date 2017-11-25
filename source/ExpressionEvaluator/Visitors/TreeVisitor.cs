@@ -11,6 +11,7 @@ namespace ExpressionEvaluator.Visitors
         private readonly List<string>        _parameters      = new List<string>();
         private readonly Stack<Expression>   _expressionStack = new Stack<Expression>();
         private readonly Stack<Token>        _operationStack  = new Stack<Token>();
+        private Token _lastToken;
         //---------------------------------------------------------------------
         public TreeVisitor(ParameterExpression arrayParameter) => _arrayParameter = arrayParameter;
         //---------------------------------------------------------------------
@@ -24,10 +25,15 @@ namespace ExpressionEvaluator.Visitors
         {
             var expr = Expression.Constant(valueToken.Value);
             _expressionStack.Push(expr);
+
+            _lastToken = valueToken;
         }
         //---------------------------------------------------------------------
         public void Visit(ParameterToken parameter)
         {
+            if (_lastToken is ValueToken)
+                this.Visit(Operation.Multiplication);
+
             if (!_parameters.Contains(parameter.Parameter))
                 _parameters.Add(parameter.Parameter);
 
@@ -35,6 +41,8 @@ namespace ExpressionEvaluator.Visitors
             var expr    = Expression.ArrayIndex(_arrayParameter, idxExpr);
 
             _expressionStack.Push(expr);
+
+            _lastToken = parameter;
         }
         //---------------------------------------------------------------------
         public void Visit(Operation operation)
@@ -45,17 +53,26 @@ namespace ExpressionEvaluator.Visitors
                 && operation.Precedence <= (_operationStack.Peek() as Operation).Precedence);
 
             _operationStack.Push(operation);
+
+            _lastToken = operation;
         }
         //---------------------------------------------------------------------
         public void Visit(Paranthesis paranthesis)
         {
             if (paranthesis == Paranthesis.Left)
+            {
+                if (_lastToken == Paranthesis.Right)
+                    this.Visit(Operation.Multiplication);
+
                 _operationStack.Push(paranthesis);
+            }
             else
             {
                 this.EvaluateWhile(() => _operationStack.Count > 0 && _operationStack.Peek() != Paranthesis.Left);
                 _operationStack.Pop();
             }
+
+            _lastToken = paranthesis;
         }
         //---------------------------------------------------------------------
         private void EvaluateWhile(Func<bool> condition)
