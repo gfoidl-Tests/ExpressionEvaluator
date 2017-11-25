@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using ExpressionEvaluator.Tokens;
 
@@ -8,35 +7,33 @@ namespace ExpressionEvaluator
 {
     internal class Lexer
     {
-        private readonly TextReader _tr;
+        private readonly PositionTextReader _tr;
         //---------------------------------------------------------------------
-        public Lexer(TextReader tr) => _tr = tr;
+        public Lexer(PositionTextReader tr) => _tr = tr;
         //---------------------------------------------------------------------
         public IEnumerable<Token> ReadTokens()
         {
             int peek;
-            int position = 0;
 
             while ((peek = _tr.Peek()) > -1)
             {
                 char next = (char)peek;
-                position++;
 
-                if (char.IsDigit(next))
-                    yield return this.ReadOperand();
+                if (this.ReadOperand(out ValueToken valueToken))
+                    yield return valueToken;
                 else if (char.IsLetter(next))
                     yield return this.ReadIdentifier();
                 else if (Operation.IsDefined(next))
                     yield return this.ReadOperation();
                 else if (next == '(')
                 {
-                    yield return Paranthesis.Left;
                     _tr.Read();
+                    yield return Paranthesis.Left;
                 }
                 else if (next == ')')
                 {
-                    yield return Paranthesis.Right;
                     _tr.Read();
+                    yield return Paranthesis.Right;
                 }
                 else if (next == ' ' || next == '\t')
                 {
@@ -44,20 +41,24 @@ namespace ExpressionEvaluator
                     continue;
                 }
                 else
-                    throw new InvalidOperationException($"Unknown token '{next}' at position {position}");
+                    throw new InvalidOperationException($"Unknown token '{next}' at position {_tr.Position}");
             }
         }
         //---------------------------------------------------------------------
-        private ValueToken ReadOperand()
+        private bool ReadOperand(out ValueToken valueToken)
         {
-            var sb = new StringBuilder();
-            int peek;
+            var sb     = new StringBuilder();
+            int peek   = _tr.Peek();
+            valueToken = default;
+
+            if (!IsValid((char)peek))
+                return false;
 
             while ((peek = _tr.Peek()) > -1)
             {
                 char next = (char)peek;
 
-                if (char.IsDigit(next) || next == '.')
+                if (IsValid(next))
                 {
                     _tr.Read();
                     sb.Append(next);
@@ -66,7 +67,17 @@ namespace ExpressionEvaluator
                     break;
             }
 
-            return new ValueToken(sb.ToString());
+            valueToken = new ValueToken(sb.ToString());
+            return true;
+            //-----------------------------------------------------------------
+            bool IsValid(char c)
+            {
+                if (char.IsDigit(c) || c == '.')                 return true;
+                if (_tr.Position == 0 && (c == '-' || c == '+')) return true;
+                if (sb.Length > 0 && (c == 'e' || c == 'E'))     return true;
+
+                return false;
+            }
         }
         //---------------------------------------------------------------------
         private Operation ReadOperation()

@@ -8,7 +8,7 @@ namespace ExpressionEvaluator.Tests.LexerTests
     {
         internal Lexer CreateSut(string expression)
         {
-            return new Lexer(new StringReader(expression));
+            return new Lexer(new PositionTextReader(new StringReader(expression)));
         }
     }
 }

@@ -18,7 +18,7 @@ namespace ExpressionEvaluator
             if (string.IsNullOrWhiteSpace(expression)) return 0;
 
             var reader         = new StringReader(expression);
-            var lexer          = new Lexer(reader);
+            var lexer          = new Lexer(new PositionTextReader(reader));
             var tokens         = lexer.ReadTokens();
             var arrayParameter = Expression.Parameter(typeof(double[]), "args");
             var parser         = new Parser();
