@@ -10,13 +10,13 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
         private Random _rnd = new Random();
         //---------------------------------------------------------------------
         [Test]
-        public void Empty_string___is_0([Values("", " ", "\t")]string value)
+        public void Empty_string___is_NaN([Values("", " ", "\t")]string value)
         {
             var sut = new BasicExpressionEvaluator();
 
             double actual = sut.Evaluate(value);
 
-            Assert.AreEqual(0, actual);
+            Assert.AreEqual(double.NaN, actual);
         }
         //---------------------------------------------------------------------
         [Test]

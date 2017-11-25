@@ -20,7 +20,7 @@ namespace ExpressionEvaluator.Visitors
         {
             this.EvaluateWhile(() => _operationStack.Count > 0);
 
-            return (_expressionStack.Pop(), _parameters);
+            return (_expressionStack.Pop(), _arrayParameter, _parameters);
         }
         //---------------------------------------------------------------------
         public void Visit(ValueToken valueToken)
