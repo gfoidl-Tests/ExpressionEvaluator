@@ -16,12 +16,13 @@ namespace ExpressionEvaluator
         {
             if (string.IsNullOrWhiteSpace(expression)) return 0;
 
-            var reader   = new StringReader(expression);
-            var lexer    = new Lexer(reader);
-            var tokens   = lexer.ReadTokens();
-            var parser   = new Parser();
-            var tree     = parser.Parse(tokens);
-            var compiled = Expression.Lambda<Func<double[], double>>(tree.Tree, tree.Parameter).Compile();
+            var reader         = new StringReader(expression);
+            var lexer          = new Lexer(reader);
+            var tokens         = lexer.ReadTokens();
+            var arrayParameter = Expression.Parameter(typeof(double[]), "args");
+            var parser         = new Parser();
+            var tree           = parser.Parse(tokens, arrayParameter);
+            var compiled       = Expression.Lambda<Func<double[], double>>(tree, arrayParameter).Compile();
             return compiled(arguments);
         }
     }

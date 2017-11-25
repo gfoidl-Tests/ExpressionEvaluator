@@ -1,12 +1,15 @@
 ﻿using System.Diagnostics;
+using ExpressionEvaluator.Visitors;
 
 namespace ExpressionEvaluator.Tokens
 {
     [DebuggerDisplay("{Name}")]
-    internal class Token
+    internal abstract class Token
     {
         public string Name { get; }
         //---------------------------------------------------------------------
-        public Token(string name) => this.Name = name;
+        protected Token(string name) => this.Name = name;
+        //---------------------------------------------------------------------
+        public abstract void Accept(IVisitor visitor);
     }
 }
