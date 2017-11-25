@@ -6,7 +6,7 @@ namespace ExpressionEvaluator.Tokens
     {
         public double Value { get; }
         //---------------------------------------------------------------------
-        public ValueToken(double value) : base("Value") => this.Value = value;
+        public ValueToken(double value) : base(value.ToString()) => this.Value = value;
         public ValueToken(string value) : this(double.Parse(value)) { }
         //---------------------------------------------------------------------
         public override void Accept(IVisitor visitor) => visitor.Visit(this);

@@ -6,7 +6,7 @@ using ExpressionEvaluator.Visitors;
 
 namespace ExpressionEvaluator.Tokens
 {
-    [DebuggerDisplay("{Name}")]
+    [DebuggerDisplay("{Name} | Precedence = {Precedence}")]
     internal sealed class Operation : Token
     {
         private readonly Func<Expression, Expression, Expression> _operation;
@@ -50,9 +50,7 @@ namespace ExpressionEvaluator.Tokens
         }
         //---------------------------------------------------------------------
         public Expression Apply(Expression left, Expression right) => _operation(left, right);
-        //---------------------------------------------------------------------
-        public static bool IsDefined(char operation) => _operations.ContainsKey(operation);
-        //---------------------------------------------------------------------
-        public override void Accept(IVisitor visitor) => visitor.Visit(this);
+        public static bool IsDefined(char operation)               => _operations.ContainsKey(operation);
+        public override void Accept(IVisitor visitor)              => visitor.Visit(this);
     }
 }

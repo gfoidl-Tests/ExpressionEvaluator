@@ -11,5 +11,7 @@ namespace ExpressionEvaluator.Tokens
         protected Token(string name) => this.Name = name;
         //---------------------------------------------------------------------
         public abstract void Accept(IVisitor visitor);
+        //---------------------------------------------------------------------
+        public override string ToString() => this.Name;
     }
 }
