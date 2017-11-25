@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 
 namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
 {
     [TestFixture]
-    public class Evaluate
+    public class Basics
     {
         private Random _rnd = new Random();
         //---------------------------------------------------------------------
@@ -23,7 +22,7 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
         [Test]
         public void Double___OK()
         {
-            double left = _rnd.Next(1, 100);
+            double left  = _rnd.Next(1, 100);
             double right = _rnd.Next(1, 100);
             double input = left + right / 100d;
 
@@ -93,89 +92,6 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
             yield return new TestCaseData("15+8-4-2+7", 15 + 8 - 4 - 2 + 7);
             yield return new TestCaseData("17.89-2.47+7.16", 17.89 - 2.47 + 7.16);
             yield return new TestCaseData("12-3.4+1.2", 12 - 3.4 + 1.2);
-        }
-        //---------------------------------------------------------------------
-        [Test, TestCaseSource(nameof(Expression_given___OK_TestCases))]
-        public void Expression_given___OK(string expression, double expected)
-        {
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression);
-
-            Assert.AreEqual(expected, actual, 1e-10);
-        }
-        //---------------------------------------------------------------------
-        private static IEnumerable<TestCaseData> Expression_given___OK_TestCases()
-        {
-            yield return new TestCaseData("2+5*3", 2 + 5 * 3);
-            yield return new TestCaseData("10/3.1+2*5-12.32/5", 10 / 3.1 + 2 * 5 - 12.32 / 5);
-            yield return new TestCaseData("2*(5+3)", 2 * (5 + 3));
-            yield return new TestCaseData("(5+3)*2", (5 + 3) * 2);
-            yield return new TestCaseData("(5+3)*5-2", (5 + 3) * 5 - 2);
-            yield return new TestCaseData("(5+3)*(5-2)", (5 + 3) * (5 - 2));
-            yield return new TestCaseData("((5+3)*3-(8-2)/2)/2", ((5 + 3) * 3 - (8 - 2) / 2d) / 2d);
-            yield return new TestCaseData("(4*(3+5)-4-8/2-(6-4)/2)*((2+4)*4-(8-5)/3)-5", (4 * (3 + 5) - 4 - 8 / 2 - (6 - 4) / 2) * ((2 + 4) * 4 - (8 - 5) / 3) - 5);
-            yield return new TestCaseData("(((9-6/2)*2-4)/2-6-1)/(2+24/(2+4))", (((9 - 6 / 2) * 2 - 4) / 2d - 6 - 1) / (2 + 24 / (2 + 4)));
-        }
-        //---------------------------------------------------------------------
-        [Test]
-        public void Simple_variable___OK()
-        {
-            double a          = Math.PI;
-            string expression = "a";
-
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression, a);
-
-            Assert.AreEqual(Math.PI, actual, 1e-10);
-        }
-        //---------------------------------------------------------------------
-        [Test]
-        public void Variable_and_other_math___OK()
-        {
-            double a          = Math.PI;
-            string expression = "2*a+3-4*a";
-
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression, a);
-
-            Assert.AreEqual(2 * a + 3 - 4 * a, actual, 1e-10);
-        }
-        //---------------------------------------------------------------------
-        [Test]
-        public void Multiple_variables___OK()
-        {
-            double a          = 2.6;
-            double b          = 5.7;
-            double c          = 24.15;
-            string expression = "(((9-a/2)*2-b)/2-a-1)/(2+c/(2+4))";
-
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression, a, b, c);
-
-            Assert.AreEqual((((9 - a / 2) * 2 - b) / 2 - a - 1) / (2 + c / (2 + 4)), actual, 1e-10);
-        }
-        //---------------------------------------------------------------------
-        [Test, TestCaseSource(nameof(Implicit_Multiplication___OK_TestCases))]
-        public void Implicit_Multiplication___OK(string expression, double expected)
-        {
-            double pi = Math.PI;
-
-            var sut = new BasicExpressionEvaluator();
-
-            double actual = sut.Evaluate(expression, pi);
-
-            Assert.AreEqual(expected, actual, 1e-10);
-        }
-        //---------------------------------------------------------------------
-        private static IEnumerable<TestCaseData> Implicit_Multiplication___OK_TestCases()
-        {
-            yield return new TestCaseData("2pi", 2 * Math.PI);
-            yield return new TestCaseData("(3+4)(2*pi)", (3 + 4) * (2 * Math.PI));
-            yield return new TestCaseData("(3+4)(2pi)", (3 + 4) * (2 * Math.PI));
         }
         //---------------------------------------------------------------------
         [Test]
