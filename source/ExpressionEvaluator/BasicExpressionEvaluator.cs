@@ -43,7 +43,7 @@ namespace ExpressionEvaluator
                 .Skip(arguments.Length);
 
             string msg =
-                $"Expression contains {result.Parameters.Count} parameters, only {arguments.Length} are given.\n" +
+                $"Expression contains {result.Parameters.Count} parameters, but {arguments.Length} are given.\n" +
                 $"Parameters without args are: {string.Join(", ", paramsWithouArgs)}";
 
             throw new ArgumentException(msg, nameof(arguments));

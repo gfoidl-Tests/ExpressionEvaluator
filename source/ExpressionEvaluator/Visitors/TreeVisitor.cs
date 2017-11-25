@@ -25,6 +25,9 @@ namespace ExpressionEvaluator.Visitors
         //---------------------------------------------------------------------
         public void Visit(ValueToken valueToken)
         {
+            if (_lastToken is ValueToken)
+                this.Visit(Operation.Multiplication);
+
             var expr = Expression.Constant(valueToken.Value);
             _expressionStack.Push(expr);
 

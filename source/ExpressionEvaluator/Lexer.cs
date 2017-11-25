@@ -97,6 +97,8 @@ namespace ExpressionEvaluator
 
             if (Intrinsic.IsDefined(identifier))
                 return (Intrinsic)identifier;
+            else if (Constant.IsDefined(identifier))
+                return (Constant)identifier;
 
             return new ParameterToken(identifier);
         }

@@ -10,11 +10,9 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
         [Test, TestCaseSource(nameof(Implicit_Multiplication___OK_TestCases))]
         public void Implicit_Multiplication___OK(string expression, double expected)
         {
-            double pi = Math.PI;
-
             var sut = new BasicExpressionEvaluator();
 
-            double actual = sut.Evaluate(expression, pi);
+            double actual = sut.Evaluate(expression);
 
             Assert.AreEqual(expected, actual, 1e-10);
         }
