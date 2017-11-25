@@ -177,5 +177,35 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
             yield return new TestCaseData("(3+4)(2*pi)", (3 + 4) * (2 * Math.PI));
             yield return new TestCaseData("(3+4)(2pi)", (3 + 4) * (2 * Math.PI));
         }
+        //---------------------------------------------------------------------
+        [Test]
+        public void Exponentation___OK()
+        {
+            double a = 3.12;
+            double b = 5.48;
+
+            string expression = "a^b";
+
+            var sut = new BasicExpressionEvaluator();
+
+            double actual = sut.Evaluate(expression, a, b);
+
+            Assert.AreEqual(Math.Pow(a, b), actual, 1e-10);
+        }
+        //---------------------------------------------------------------------
+        [Test]
+        public void Modulo___OK()
+        {
+            double a = 18.12;
+            double b = 5.48;
+
+            string expression = "a % b";
+
+            var sut = new BasicExpressionEvaluator();
+
+            double actual = sut.Evaluate(expression, a, b);
+
+            Assert.AreEqual(a % b, actual, 1e-10);
+        }
     }
 }

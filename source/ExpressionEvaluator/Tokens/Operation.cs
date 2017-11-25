@@ -16,6 +16,8 @@ namespace ExpressionEvaluator.Tokens
         public static readonly Operation Subtraction    = new Operation(Expression.Subtract, 1, nameof(Subtraction));
         public static readonly Operation Multiplication = new Operation(Expression.Multiply, 2, nameof(Multiplication));
         public static readonly Operation Division       = new Operation(Expression.Divide  , 2, nameof(Division));
+        public static readonly Operation Exponentation  = new Operation(Expression.Power   , 3, nameof(Exponentation));
+        public static readonly Operation Modulo         = new Operation(Expression.Modulo  , 2, nameof(Modulo));
         //---------------------------------------------------------------------
         public int Precedence { get; }
         //---------------------------------------------------------------------
@@ -26,7 +28,9 @@ namespace ExpressionEvaluator.Tokens
                 ['+'] = Addition,
                 ['-'] = Subtraction,
                 ['*'] = Multiplication,
-                ['/'] = Division
+                ['/'] = Division,
+                ['^'] = Exponentation,
+                ['%'] = Modulo
             };
         }
         //---------------------------------------------------------------------
