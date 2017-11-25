@@ -45,5 +45,16 @@ namespace ExpressionEvaluator.Tests.BasicExpressionEvaluatorTests
 
             Assert.AreEqual((((9 - a / 2) * 2 - b) / 2 - a - 1) / (2 + c / (2 + 4)), actual, 1e-10);
         }
+        //---------------------------------------------------------------------
+        [Test]
+        public void Less_args_given_than_parameters_in_expression___throws_ArgumentException()
+        {
+            double a    = 234.234234;
+            string expr = "x+y";
+
+            var sut = new BasicExpressionEvaluator();
+
+            Assert.Throws<ArgumentException>(() => sut.Evaluate(expr, a));
+        }
     }
 }

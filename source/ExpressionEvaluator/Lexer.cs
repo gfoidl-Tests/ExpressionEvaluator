@@ -25,7 +25,7 @@ namespace ExpressionEvaluator
                 if (char.IsDigit(next))
                     yield return this.ReadOperand();
                 else if (char.IsLetter(next))
-                    yield return this.ReadParameter();
+                    yield return this.ReadIdentifier();
                 else if (Operation.IsDefined(next))
                     yield return this.ReadOperation();
                 else if (next == '(')
@@ -75,7 +75,7 @@ namespace ExpressionEvaluator
             return (Operation)operation;
         }
         //---------------------------------------------------------------------
-        private ParameterToken ReadParameter()
+        private Token ReadIdentifier()
         {
             var sb = new StringBuilder();
             int peek;
@@ -84,7 +84,7 @@ namespace ExpressionEvaluator
             {
                 char next = (char)peek;
 
-                if (char.IsLetter(next))
+                if (char.IsLetter(next) || (sb.Length > 0 && char.IsDigit(next)))
                 {
                     _tr.Read();
                     sb.Append(next);
@@ -93,7 +93,12 @@ namespace ExpressionEvaluator
                     break;
             }
 
-            return new ParameterToken(sb.ToString());
+            string identifier = sb.ToString();
+
+            if (Intrinsic.IsDefined(identifier))
+                return (Intrinsic)identifier;
+
+            return new ParameterToken(identifier);
         }
     }
 }

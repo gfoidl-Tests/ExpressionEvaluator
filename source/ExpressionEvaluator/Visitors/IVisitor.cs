@@ -2,11 +2,13 @@
 
 namespace ExpressionEvaluator.Visitors
 {
-    internal interface IVisitor
+    public interface IVisitor
     {
         void Visit(Operation operation);
         void Visit(ParameterToken parameter);
-        void Visit(Paranthesis paranthesis);
+        void Visit(LeftParanthesis paranthesis);
+        void Visit(RightParanthesis paranthesis);
         void Visit(ValueToken valueToken);
+        void Visit(Intrinsic intrinsic);
     }
 }

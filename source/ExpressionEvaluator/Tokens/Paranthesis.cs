@@ -1,14 +1,10 @@
-﻿using ExpressionEvaluator.Visitors;
-
-namespace ExpressionEvaluator.Tokens
+﻿namespace ExpressionEvaluator.Tokens
 {
-    internal sealed class Paranthesis : Token
+    public abstract class Paranthesis : Token
     {
-        public static readonly Paranthesis Left  = new Paranthesis("Left (");
-        public static readonly Paranthesis Right = new Paranthesis("Right )");
+        public static readonly LeftParanthesis Left   = new LeftParanthesis();
+        public static readonly RightParanthesis Right = new RightParanthesis();
         //---------------------------------------------------------------------
-        private Paranthesis(string name) : base(name) { }
-        //---------------------------------------------------------------------
-        public override void Accept(IVisitor visitor) => visitor.Visit(this);
+        protected Paranthesis(string name) : base(name) { }
     }
 }

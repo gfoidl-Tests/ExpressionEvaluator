@@ -4,7 +4,7 @@ using ExpressionEvaluator.Visitors;
 namespace ExpressionEvaluator.Tokens
 {
     [DebuggerDisplay("{Name}")]
-    internal abstract class Token
+    public abstract class Token
     {
         public string Name { get; }
         //---------------------------------------------------------------------
@@ -12,6 +12,7 @@ namespace ExpressionEvaluator.Tokens
         //---------------------------------------------------------------------
         public abstract void Accept(IVisitor visitor);
         //---------------------------------------------------------------------
+        [DebuggerStepThrough]
         public override string ToString() => this.Name;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace ExpressionEvaluator.Tokens
 {
-    internal sealed class ValueToken : Token
+    public sealed class ValueToken : Token
     {
         public double Value { get; }
         //---------------------------------------------------------------------
