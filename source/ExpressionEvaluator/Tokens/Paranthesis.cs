@@ -1,10 +1,12 @@
-﻿namespace ExpressionEvaluator.Tokens
+﻿using System;
+
+namespace ExpressionEvaluator.Tokens
 {
     public abstract class Paranthesis : Token
     {
-        public static readonly LeftParanthesis Left   = new LeftParanthesis();
-        public static readonly RightParanthesis Right = new RightParanthesis();
+        public static readonly Func<int, LeftParanthesis> Left   = p => new LeftParanthesis(p);
+        public static readonly Func<int, RightParanthesis> Right = p => new RightParanthesis(p);
         //---------------------------------------------------------------------
-        protected Paranthesis(string name) : base(name) { }
+        protected Paranthesis(string name, int position) : base(name, position) { }
     }
 }

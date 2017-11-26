@@ -8,9 +8,10 @@ namespace ExpressionEvaluator
 {
     internal class Parser
     {
-        public ParsingResult Parse(IEnumerable<Token> tokens, ParameterExpression arrayParameter)
+        public ParsingResult Parse(IEnumerable<Token> tokens)
         {
-            var treeVisitor = new TreeVisitor(arrayParameter);
+            var arrayParameter = Expression.Parameter(typeof(double[]), "args");
+            var treeVisitor    = new ParsingVisitor(arrayParameter);
 
             foreach (Token token in tokens)
             {

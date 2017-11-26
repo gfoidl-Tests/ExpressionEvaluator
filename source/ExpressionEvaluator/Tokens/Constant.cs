@@ -6,26 +6,26 @@ namespace ExpressionEvaluator.Tokens
 {
     public sealed class Constant : ValueToken
     {
-        private static readonly Dictionary<string, Constant> _constants;
+        private static readonly Dictionary<string, Func<int, Constant>> _constants;
         //---------------------------------------------------------------------
-        public static readonly Constant Pi = new Constant(Math.PI);
-        public static readonly Constant E  = new Constant(Math.E);
+        public static readonly Func<int, Constant> Pi = p => new Constant(p, Math.PI);
+        public static readonly Func<int, Constant> E  = p => new Constant(p, Math.E);
         //---------------------------------------------------------------------
         static Constant()
         {
-            _constants = new Dictionary<string, Constant>
+            _constants = new Dictionary<string, Func<int, Constant>>
             {
                 ["pi"] = Pi,
                 ["e"]  = E
             };
         }
         //---------------------------------------------------------------------
-        private Constant(double value) : base(value) { }
+        private Constant(int position, double value) : base(position, value) { }
         //---------------------------------------------------------------------
-        public static explicit operator Constant(string constant)
+        public static explicit operator Constant((string Name, int Position) constant)
         {
-            if (_constants.TryGetValue(constant, out Constant res))
-                return res;
+            if (_constants.TryGetValue(constant.Name, out Func<int, Constant> res))
+                return res(constant.Position);
 
             throw new InvalidOperationException($"No constant defined for {constant}");
         }

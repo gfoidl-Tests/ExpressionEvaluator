@@ -5,7 +5,7 @@ using ExpressionEvaluator.Tokens;
 
 namespace ExpressionEvaluator.Visitors
 {
-    public class TreeVisitor : IVisitor
+    public class ParsingVisitor : IVisitor
     {
         private readonly ParameterExpression _arrayParameter;
         private readonly List<string>        _parameters      = new List<string>();
@@ -14,7 +14,7 @@ namespace ExpressionEvaluator.Visitors
         private readonly Stack<Intrinsic>    _intrinsicStack  = new Stack<Intrinsic>();
         private Token _lastToken;
         //---------------------------------------------------------------------
-        public TreeVisitor(ParameterExpression arrayParameter) => _arrayParameter = arrayParameter;
+        public ParsingVisitor(ParameterExpression arrayParameter) => _arrayParameter = arrayParameter;
         //---------------------------------------------------------------------
         public ParsingResult GetExpressionTree()
         {
@@ -26,7 +26,7 @@ namespace ExpressionEvaluator.Visitors
         public void Visit(ValueToken valueToken)
         {
             if (_lastToken is ValueToken)
-                this.Visit(Operation.Multiplication);
+                this.Visit(Operation.Multiplication(-1));
 
             var expr = Expression.Constant(valueToken.Value);
             _expressionStack.Push(expr);
@@ -37,7 +37,7 @@ namespace ExpressionEvaluator.Visitors
         public void Visit(ParameterToken parameter)
         {
             if (_lastToken is ValueToken)
-                this.Visit(Operation.Multiplication);
+                this.Visit(Operation.Multiplication(-1));
 
             if (!_parameters.Contains(parameter.Parameter))
                 _parameters.Add(parameter.Parameter);
@@ -54,7 +54,7 @@ namespace ExpressionEvaluator.Visitors
         {
             this.EvaluateWhile(() =>
                 _operationStack.Count > 0
-                && _operationStack.Peek() != Paranthesis.Left
+                && !_operationStack.Peek().IsOfType<LeftParanthesis>()
                 && operation.Precedence <= (_operationStack.Peek() as Operation).Precedence);
 
             _operationStack.Push(operation);
@@ -65,7 +65,7 @@ namespace ExpressionEvaluator.Visitors
         public void Visit(Intrinsic intrinsic)
         {
             if (_lastToken is ValueToken)
-                this.Visit(Operation.Multiplication);
+                this.Visit(Operation.Multiplication(-1));
 
             _intrinsicStack.Push(intrinsic);
 
@@ -74,8 +74,8 @@ namespace ExpressionEvaluator.Visitors
         //---------------------------------------------------------------------
         public void Visit(LeftParanthesis paranthesis)
         {
-            if (_lastToken == Paranthesis.Right)
-                this.Visit(Operation.Multiplication);
+            if (_lastToken?.IsOfType<RightParanthesis>() ?? false)
+                this.Visit(Operation.Multiplication(-1));
 
             _operationStack.Push(paranthesis);
 
@@ -84,7 +84,7 @@ namespace ExpressionEvaluator.Visitors
         //---------------------------------------------------------------------
         public void Visit(RightParanthesis paranthesis)
         {
-            this.EvaluateWhile(() => _operationStack.Count > 0 && _operationStack.Peek() != Paranthesis.Left);
+            this.EvaluateWhile(() => _operationStack.Count > 0 && !_operationStack.Peek().IsOfType<LeftParanthesis>());
             _operationStack.Pop();
 
             if (_intrinsicStack.Count > 0)

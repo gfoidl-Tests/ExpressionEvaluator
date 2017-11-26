@@ -28,12 +28,12 @@ namespace ExpressionEvaluator
                 else if (next == '(')
                 {
                     _tr.Read();
-                    yield return Paranthesis.Left;
+                    yield return Paranthesis.Left(_tr.Position);
                 }
                 else if (next == ')')
                 {
                     _tr.Read();
-                    yield return Paranthesis.Right;
+                    yield return Paranthesis.Right(_tr.Position);
                 }
                 else if (next == ' ' || next == '\t')
                 {
@@ -67,7 +67,7 @@ namespace ExpressionEvaluator
                     break;
             }
 
-            valueToken = new ValueToken(sb.ToString());
+            valueToken = new ValueToken(_tr.Position, sb.ToString());
             return true;
             //-----------------------------------------------------------------
             bool IsValid(char c)
@@ -83,7 +83,7 @@ namespace ExpressionEvaluator
         private Operation ReadOperation()
         {
             char operation = (char)_tr.Read();
-            return (Operation)operation;
+            return (Operation)(operation, _tr.Position);
         }
         //---------------------------------------------------------------------
         private Token ReadIdentifier()
@@ -107,11 +107,11 @@ namespace ExpressionEvaluator
             string identifier = sb.ToString();
 
             if (Intrinsic.IsDefined(identifier))
-                return (Intrinsic)identifier;
+                return (Intrinsic)(identifier, _tr.Position);
             else if (Constant.IsDefined(identifier))
-                return (Constant)identifier;
+                return (Constant)(identifier, _tr.Position);
 
-            return new ParameterToken(identifier);
+            return new ParameterToken(_tr.Position, identifier);
         }
     }
 }

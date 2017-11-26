@@ -7,7 +7,7 @@ namespace ExpressionEvaluator.Tests.LexerTests
     public class Intrinsic : BaseFixture
     {
         [Test, TestCaseSource(nameof(Intrinsic_given___OK_TestCases))]
-        public void Intrinsic_given___OK(string expression, Tokens.Intrinsic intrinsic)
+        public void Intrinsic_given___OK(string expression, string intrinsic)
         {
             Lexer sut = this.CreateSut(expression);
 
@@ -15,14 +15,14 @@ namespace ExpressionEvaluator.Tests.LexerTests
                 .Cast<Tokens.Intrinsic>()
                 .Single();
 
-            Assert.AreSame(intrinsic, actual);
+            Assert.AreSame(intrinsic, actual.Name);
         }
         //---------------------------------------------------------------------
         private static IEnumerable<TestCaseData> Intrinsic_given___OK_TestCases()
         {
-            yield return new TestCaseData("sin", Tokens.Intrinsic.Sinus);
-            yield return new TestCaseData("cos", Tokens.Intrinsic.Cosinus);
-            yield return new TestCaseData("tan", Tokens.Intrinsic.Tangens);
+            yield return new TestCaseData("sin", nameof(Tokens.Intrinsic.Sinus));
+            yield return new TestCaseData("cos", nameof(Tokens.Intrinsic.Cosinus));
+            yield return new TestCaseData("tan", nameof(Tokens.Intrinsic.Tangens));
         }
     }
 }

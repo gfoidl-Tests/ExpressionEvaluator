@@ -6,7 +6,8 @@ namespace ExpressionEvaluator.Tokens
     {
         public string Parameter { get; }
         //---------------------------------------------------------------------
-        public ParameterToken(string parameter) : base(parameter) => this.Parameter = parameter;
+        public ParameterToken(int position, string parameter) : base(parameter, position) =>
+            this.Parameter = parameter;
         //---------------------------------------------------------------------
         public override void Accept(IVisitor visitor) => visitor.Visit(this);
     }

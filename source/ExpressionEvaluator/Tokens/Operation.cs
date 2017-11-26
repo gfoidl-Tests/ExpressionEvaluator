@@ -9,21 +9,21 @@ namespace ExpressionEvaluator.Tokens
     [DebuggerDisplay("{Name} | Precedence = {Precedence}")]
     public sealed class Operation : Token
     {
-        private readonly Func<Expression, Expression, Expression> _operation;
-        private static readonly Dictionary<char, Operation>       _operations;
+        private readonly Func<Expression, Expression, Expression>      _operation;
+        private static readonly Dictionary<char, Func<int, Operation>> _operations;
         //---------------------------------------------------------------------
-        public static readonly Operation Addition       = new Operation(Expression.Add     , 1, nameof(Addition));
-        public static readonly Operation Subtraction    = new Operation(Expression.Subtract, 1, nameof(Subtraction));
-        public static readonly Operation Multiplication = new Operation(Expression.Multiply, 2, nameof(Multiplication));
-        public static readonly Operation Division       = new Operation(Expression.Divide  , 2, nameof(Division));
-        public static readonly Operation Exponentation  = new Operation(Expression.Power   , 3, nameof(Exponentation));
-        public static readonly Operation Modulo         = new Operation(Expression.Modulo  , 2, nameof(Modulo));
+        public static readonly Func<int, Operation> Addition       = p => new Operation(p, Expression.Add     , 1, nameof(Addition));
+        public static readonly Func<int, Operation> Subtraction    = p => new Operation(p, Expression.Subtract, 1, nameof(Subtraction));
+        public static readonly Func<int, Operation> Multiplication = p => new Operation(p, Expression.Multiply, 2, nameof(Multiplication));
+        public static readonly Func<int, Operation> Division       = p => new Operation(p, Expression.Divide  , 2, nameof(Division));
+        public static readonly Func<int, Operation> Exponentation  = p => new Operation(p, Expression.Power   , 3, nameof(Exponentation));
+        public static readonly Func<int, Operation> Modulo         = p => new Operation(p, Expression.Modulo  , 2, nameof(Modulo));
         //---------------------------------------------------------------------
         public int Precedence { get; }
         //---------------------------------------------------------------------
         static Operation()
         {
-            _operations = new Dictionary<char, Operation>
+            _operations = new Dictionary<char, Func<int, Operation>>
             {
                 ['+'] = Addition,
                 ['-'] = Subtraction,
@@ -34,19 +34,19 @@ namespace ExpressionEvaluator.Tokens
             };
         }
         //---------------------------------------------------------------------
-        private Operation(Func<Expression, Expression, Expression> operation, int precedence, string name)
-            : base(name)
+        private Operation(int position, Func<Expression, Expression, Expression> operation, int precedence, string name)
+            : base(name, position)
         {
             this.Precedence = precedence;
             _operation      = operation;
         }
         //---------------------------------------------------------------------
-        public static explicit operator Operation(char operation)
+        public static explicit operator Operation((char Name, int Position) operation)
         {
-            if (_operations.TryGetValue(operation, out Operation res))
-                return res;
+            if (_operations.TryGetValue(operation.Name, out Func<int, Operation> res))
+                return res(operation.Position);
 
-            throw new InvalidOperationException($"No Operation defined for {operation}");
+            throw new InvalidOperationException($"No Operation defined for {operation.Name}");
         }
         //---------------------------------------------------------------------
         public Expression Apply(Expression left, Expression right) => _operation(left, right);
