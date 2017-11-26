@@ -7,7 +7,7 @@ namespace ExpressionEvaluator.Tests.LexerTests
     public class Digits : BaseFixture
     {
         [Test]
-        public void Digits___OK([Values("2", "3.14", "-1", "3e2", "-3e4", "1E2")]string expression)
+        public void Digits___OK([Values("2", "3.14", "-1", "3e2", "-3e4", "1E2", "1_000", "2_000_000")]string expression)
         {
             Lexer sut = this.CreateSut(expression);
 
@@ -15,7 +15,7 @@ namespace ExpressionEvaluator.Tests.LexerTests
                 .Cast<ValueToken>()
                 .Single();
 
-            Assert.AreEqual(double.Parse(expression), actual.Value);
+            Assert.AreEqual(double.Parse(expression.Replace("_", "")), actual.Value);
         }
     }
 }

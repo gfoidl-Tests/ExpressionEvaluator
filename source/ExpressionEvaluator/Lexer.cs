@@ -61,7 +61,9 @@ namespace ExpressionEvaluator
                 if (IsValid(next))
                 {
                     _tr.Read();
-                    sb.Append(next);
+
+                    if (next != '_')
+                        sb.Append(next);
                 }
                 else
                     break;
@@ -72,9 +74,9 @@ namespace ExpressionEvaluator
             //-----------------------------------------------------------------
             bool IsValid(char c)
             {
-                if (char.IsDigit(c) || c == '.')                 return true;
-                if (_tr.Position == 0 && (c == '-' || c == '+')) return true;
-                if (sb.Length > 0 && (c == 'e' || c == 'E'))     return true;
+                if (char.IsDigit(c) || c == '.')                         return true;
+                if (_tr.Position == 0 && (c == '-' || c == '+'))         return true;
+                if (sb.Length > 0 && (c == 'e' || c == 'E' || c == '_')) return true;
 
                 return false;
             }
