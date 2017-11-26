@@ -17,5 +17,13 @@ namespace ExpressionEvaluator.Tests.LexerTests
 
             Assert.AreEqual(double.Parse(expression.Replace("_", "")), actual.Value);
         }
+        //---------------------------------------------------------------------
+        [Test]
+        public void Minus_Plus___throws_ParsingException([Values("+-1", "-+1")] string expression)
+        {
+            Lexer sut = this.CreateSut(expression);
+
+            Assert.Throws<ParsingException>(() => sut.ReadTokens().ToList());
+        }
     }
 }

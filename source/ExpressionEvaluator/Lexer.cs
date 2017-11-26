@@ -47,9 +47,10 @@ namespace ExpressionEvaluator
         //---------------------------------------------------------------------
         private bool ReadOperand(out ValueToken valueToken)
         {
-            var sb     = new StringBuilder();
-            int peek   = _tr.Peek();
-            valueToken = default;
+            var sb         = new StringBuilder();
+            int peek       = _tr.Peek();
+            valueToken     = default;
+            bool hasDigits = false;
 
             if (!IsValid((char)peek))
                 return false;
@@ -62,6 +63,8 @@ namespace ExpressionEvaluator
                 {
                     _tr.Read();
 
+                    if (char.IsDigit(next)) hasDigits = true;
+
                     if (next != '_')
                         sb.Append(next);
                 }
@@ -69,8 +72,13 @@ namespace ExpressionEvaluator
                     break;
             }
 
-            valueToken = new ValueToken(_tr.Position, sb.ToString());
-            return true;
+            if (hasDigits)
+            {
+                valueToken = new ValueToken(_tr.Position, sb.ToString());
+                return true;
+            }
+
+            throw ParsingException.LiteralWithTwoSigns();
             //-----------------------------------------------------------------
             bool IsValid(char c)
             {

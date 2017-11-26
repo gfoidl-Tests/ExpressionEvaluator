@@ -10,18 +10,20 @@ namespace ExpressionEvaluator
     {
         public ParsingResult Parse(IEnumerable<Token> tokens)
         {
-            var arrayParameter = Expression.Parameter(typeof(double[]), "args");
-            var treeVisitor    = new ParsingVisitor(arrayParameter);
+            var semanticVisitor = new SemanticVisitor();
+            var parsingVisitor  = new ParsingVisitor();
 
             foreach (Token token in tokens)
             {
 #if DEBUG
                 Console.WriteLine(token);
 #endif
-                token.Accept(treeVisitor);
+                token.Accept(semanticVisitor);
+                token.Accept(parsingVisitor);
             }
 
-            return treeVisitor.GetExpressionTree();
+            semanticVisitor.Validate();
+            return parsingVisitor.GetExpressionTree();
         }
     }
 }

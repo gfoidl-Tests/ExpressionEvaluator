@@ -18,9 +18,6 @@ namespace ExpressionEvaluator.Tokens
         public abstract void Accept(IVisitor visitor);
         //---------------------------------------------------------------------
         [DebuggerStepThrough]
-        public bool IsOfType<T>() where T : Token => this is T;
-        //---------------------------------------------------------------------
-        [DebuggerStepThrough]
         public override string ToString() => this.Name;
     }
 }
