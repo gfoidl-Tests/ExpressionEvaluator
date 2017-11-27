@@ -6,22 +6,36 @@ namespace ExpressionCompiler.Emitter.TinyStackMachine
     internal class TinyStackMachineEmitter : Emitter<bool>
     {
         private readonly TextWriter _writer;
+        private readonly TextWriter _debugInfoWriter;
+        private int _emittedLine;
         //---------------------------------------------------------------------
-        public TinyStackMachineEmitter(Expression tree, TextWriter writer)
+        public TinyStackMachineEmitter(Expression tree, TextWriter writer, TextWriter debugInfoWriter)
             : base(tree)
-            => _writer = writer;
+        {
+            _writer          = writer;
+            _debugInfoWriter = debugInfoWriter;
+        }
         //---------------------------------------------------------------------
         public override void Emit()
         {
             _writer.WriteLine(".formula");
+            _emittedLine++;
+
             this.Tree.Accept(this);
+
             _writer.WriteLine("print");
+            _emittedLine++;
+
             _writer.WriteLine(".end");
+            _emittedLine++;
         }
         //---------------------------------------------------------------------
         public override bool Visit(ConstantExpression constant)
         {
             _writer.WriteLine($"push {constant.Value}");
+            _emittedLine++;
+
+            this.EmitDebugInfo(constant);
 
             return true;
         }
@@ -30,6 +44,9 @@ namespace ExpressionCompiler.Emitter.TinyStackMachine
         {
             arrayIndexExpression.Right.Accept(this);
             _writer.WriteLine("arr_index");
+            _emittedLine++;
+
+            this.EmitDebugInfo(arrayIndexExpression);
 
             return true;
         }
@@ -50,6 +67,9 @@ namespace ExpressionCompiler.Emitter.TinyStackMachine
             binaryExpression.Left.Accept(this);
             binaryExpression.Right.Accept(this);
             _writer.WriteLine(cmd);
+            _emittedLine++;
+
+            this.EmitDebugInfo(binaryExpression);
 
             return true;
         }
@@ -58,8 +78,18 @@ namespace ExpressionCompiler.Emitter.TinyStackMachine
         {
             intrinsic.Argument.Accept(this);
             _writer.WriteLine(cmd);
+            _emittedLine++;
+
+            this.EmitDebugInfo(intrinsic);
 
             return true;
+        }
+        //---------------------------------------------------------------------
+        private void EmitDebugInfo(Expression expression)
+        {
+            if (_debugInfoWriter == null) return;
+
+            _debugInfoWriter.WriteLine($"{_emittedLine} {expression.Token.Position}");
         }
     }
 }

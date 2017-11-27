@@ -19,8 +19,9 @@ namespace ExpressionCompiler.TinyStackMachine
             tsmName = Path.ChangeExtension(Path.Combine("tsm", tsmName), "tsm");
 
             using (StreamWriter sw = File.CreateText(tsmName))
+            using (StreamWriter dw = File.CreateText(Path.ChangeExtension(tsmName, "dbg")))
             {
-                var compiler = new TinyStackMachineCompiler(sw);
+                var compiler = new TinyStackMachineCompiler(sw, dw);
                 compiler.Compile(expression);
             }
 
