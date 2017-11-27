@@ -3,7 +3,7 @@ using ExpressionCompiler.Expressions;
 
 namespace ExpressionCompiler.Parser
 {
-    public class ParsingResult
+    internal class ParsingResult
     {
         public Expression Tree                        { get; }
         public IReadOnlyCollection<string> Parameters { get; }

@@ -6,6 +6,6 @@ namespace ExpressionCompiler.Tokens
     {
         public Log(int position) : base("Log", position) { }
         //---------------------------------------------------------------------
-        public override Expression Apply(Expression arg) => new CosExpression(this, arg);
+        public override Expression Apply(Expression arg) => new LogExpression(this, arg);
     }
 }

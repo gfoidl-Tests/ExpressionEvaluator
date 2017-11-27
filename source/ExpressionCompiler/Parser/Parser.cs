@@ -21,7 +21,14 @@ namespace ExpressionCompiler.Parser
             }
 
             semanticVisitor.Validate();
-            return parsingVisitor.GetExpressionTree();
+
+            var result = parsingVisitor.GetExpressionTree();
+#if DEBUG
+            Console.WriteLine("\nExpression Tree");
+            Console.WriteLine(result.Tree);
+            Console.WriteLine($"No of params: {result.Parameters.Count}");
+#endif
+            return result;
         }
     }
 }

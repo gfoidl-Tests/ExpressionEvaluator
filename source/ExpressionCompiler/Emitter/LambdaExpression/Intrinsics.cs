@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace ExpressionCompiler
+namespace ExpressionCompiler.Emitter.LambdaExpression
 {
     internal static class Intrinsics
     {
