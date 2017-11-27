@@ -5,13 +5,20 @@ using ExpressionCompiler.Parser;
 
 namespace ExpressionCompiler
 {
-    public abstract class Compiler
+    public abstract class Compiler : ICompiler
     {
         public IReadOnlyCollection<string> Parameters { get; private set; }
         //---------------------------------------------------------------------
-        public abstract bool Compile(string expression);
+        public bool Compile(string expression)
+        {
+            Expression tree = this.Parse(expression);
+
+            if (tree == null) return false;
+
+            return this.Emit(tree);
+        }
         //---------------------------------------------------------------------
-        protected Expression Parse(string expression)
+        protected virtual Expression Parse(string expression)
         {
             if (string.IsNullOrWhiteSpace(expression)) return null;
 
@@ -24,5 +31,7 @@ namespace ExpressionCompiler
 
             return result.Tree;
         }
+        //---------------------------------------------------------------------
+        protected abstract bool Emit(Expression tree);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using ExpressionCompiler.Emitter.LambdaExpression;
+using ExpressionCompiler.Expressions;
 
 namespace ExpressionCompiler
 {
@@ -7,14 +8,9 @@ namespace ExpressionCompiler
     {
         public Func<double[], double> Delegate { get; private set; }
         //---------------------------------------------------------------------
-        public override bool Compile(string expression)
+        protected override bool Emit(Expression tree)
         {
-            var parsingResult = this.Parse(expression);
-
-            if (parsingResult == null) return false;
-
-            var emitter = new LambdaExpressionEmitter(parsingResult);
-
+            var emitter = new LambdaExpressionEmitter(tree);
             emitter.Emit();
 
             var linqExpression = emitter.Result;
