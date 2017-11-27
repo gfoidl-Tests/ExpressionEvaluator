@@ -14,6 +14,6 @@ namespace ExpressionCompiler.Expressions
             : base(new GeneratedToken())
             => this.Value = value;
         //---------------------------------------------------------------------
-        internal override void Accept(IExpressionVisitor visitor) => visitor.Visit(this);
+        internal override T Accept<T>(IExpressionVisitor<T> visitor) => visitor.Visit(this);
     }
 }

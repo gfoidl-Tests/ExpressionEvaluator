@@ -8,6 +8,6 @@ namespace ExpressionCompiler.Expressions
             : base(token, argument)
         { }
         //---------------------------------------------------------------------
-        internal override void Accept(IExpressionVisitor visitor) => visitor.Visit(this);
+        internal override T Accept<T>(IExpressionVisitor<T> visitor) => visitor.Visit(this);
     }
 }

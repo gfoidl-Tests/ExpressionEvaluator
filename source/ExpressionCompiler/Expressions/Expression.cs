@@ -8,6 +8,6 @@ namespace ExpressionCompiler.Expressions
         //---------------------------------------------------------------------
         protected Expression(Token token) => this.Token = token;
         //---------------------------------------------------------------------
-        internal abstract void Accept(IExpressionVisitor visitor);
+        internal abstract T Accept<T>(IExpressionVisitor<T> visitor);
     }
 }

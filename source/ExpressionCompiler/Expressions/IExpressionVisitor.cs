@@ -1,19 +1,19 @@
 ﻿namespace ExpressionCompiler.Expressions
 {
-    internal interface IExpressionVisitor
+    internal interface IExpressionVisitor<T>
     {
-        void Visit(ConstantExpression      constant);
-        void Visit(ParameterExpression     parameterExpression);
-        void Visit(ArrayIndexExpression    arrayIndexExpression);
-        void Visit(AddExpression           addExpression);
-        void Visit(SubtractExpression      subtractExpression);
-        void Visit(MultiplyExpression      multiplyExpression);
-        void Visit(DivideExpression        divideExpression);
-        void Visit(ExponentationExpression exponentationExpression);
-        void Visit(ModuloExpression        moduloExpression);
-        void Visit(SinExpression           sinExpression);
-        void Visit(CosExpression           cosExpression);
-        void Visit(TanExpression           tanExpression);
-        void Visit(LogExpression           logExpression);
+        T Visit(ConstantExpression      constant);
+        T Visit(ParameterExpression     parameterExpression);
+        T Visit(ArrayIndexExpression    arrayIndexExpression);
+        T Visit(AddExpression           addExpression);
+        T Visit(SubtractExpression      subtractExpression);
+        T Visit(MultiplyExpression      multiplyExpression);
+        T Visit(DivideExpression        divideExpression);
+        T Visit(ExponentationExpression exponentationExpression);
+        T Visit(ModuloExpression        moduloExpression);
+        T Visit(SinExpression           sinExpression);
+        T Visit(CosExpression           cosExpression);
+        T Visit(TanExpression           tanExpression);
+        T Visit(LogExpression           logExpression);
     }
 }
