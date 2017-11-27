@@ -15,7 +15,7 @@ namespace ExpressionCompiler.Tokens
             this.Position = position;
         }
         //---------------------------------------------------------------------
-        public abstract void Accept(IVisitor visitor);
+        public abstract void Accept(ITokenVisitor visitor);
         //---------------------------------------------------------------------
         [DebuggerStepThrough]
         public override string ToString() => this.Name;

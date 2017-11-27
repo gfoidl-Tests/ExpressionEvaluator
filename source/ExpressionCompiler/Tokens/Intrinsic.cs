@@ -40,6 +40,6 @@ namespace ExpressionCompiler.Tokens
         //---------------------------------------------------------------------
         public Expression Apply(Expression arg)        => _operation(arg);
         public static bool IsDefined(string intrinsic) => _intrinsics.ContainsKey(intrinsic);
-        public override void Accept(IVisitor visitor)  => visitor.Visit(this);
+        public override void Accept(ITokenVisitor visitor)  => visitor.Visit(this);
     }
 }

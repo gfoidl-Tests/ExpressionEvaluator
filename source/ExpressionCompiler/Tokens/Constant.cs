@@ -31,6 +31,6 @@ namespace ExpressionCompiler.Tokens
         }
         //---------------------------------------------------------------------
         public static bool IsDefined(string constant) => _constants.ContainsKey(constant);
-        public override void Accept(IVisitor visitor) => visitor.Visit(this);
+        public override void Accept(ITokenVisitor visitor) => visitor.Visit(this);
     }
 }

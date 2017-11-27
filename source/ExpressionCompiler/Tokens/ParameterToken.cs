@@ -9,6 +9,6 @@ namespace ExpressionCompiler.Tokens
         public ParameterToken(int position, string parameter) : base(parameter, position) =>
             this.Parameter = parameter;
         //---------------------------------------------------------------------
-        public override void Accept(IVisitor visitor) => visitor.Visit(this);
+        public override void Accept(ITokenVisitor visitor) => visitor.Visit(this);
     }
 }

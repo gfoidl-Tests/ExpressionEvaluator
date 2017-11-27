@@ -5,7 +5,7 @@ using ExpressionCompiler.Tokens;
 
 namespace ExpressionCompiler.Visitors
 {
-    internal class ParsingVisitor : IVisitor
+    internal class ParsingVisitor : ITokenVisitor
     {
         private readonly ParameterExpression _arrayParameter  = Expression.Parameter(typeof(double[]), "args");
         private readonly List<string>        _parameters      = new List<string>();

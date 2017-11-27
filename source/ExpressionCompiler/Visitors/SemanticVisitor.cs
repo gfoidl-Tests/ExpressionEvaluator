@@ -3,7 +3,7 @@ using ExpressionCompiler.Tokens;
 
 namespace ExpressionCompiler.Visitors
 {
-    internal class SemanticVisitor : IVisitor
+    internal class SemanticVisitor : ITokenVisitor
     {
         private Token _lastToken;
         private readonly Stack<Paranthesis> _paranthesisStack = new Stack<Paranthesis>();

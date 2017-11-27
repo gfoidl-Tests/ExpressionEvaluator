@@ -6,6 +6,6 @@ namespace ExpressionCompiler.Tokens
     {
         internal LeftParanthesis(int position) : base("Left (", position) { }
         //---------------------------------------------------------------------
-        public override void Accept(IVisitor visitor) => visitor.Visit(this);
+        public override void Accept(ITokenVisitor visitor) => visitor.Visit(this);
     }
 }

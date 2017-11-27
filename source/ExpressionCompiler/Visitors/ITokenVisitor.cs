@@ -2,7 +2,7 @@
 
 namespace ExpressionCompiler.Visitors
 {
-    internal interface IVisitor
+    internal interface ITokenVisitor
     {
         void Visit(Operation        operation);
         void Visit(ParameterToken   parameter);
