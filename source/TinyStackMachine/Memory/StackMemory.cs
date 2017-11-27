@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace TinyStackMachine
 {
-    internal sealed class StackMemory : Memory
+    internal sealed class StackMemory : Memory, IEnumerable<double>
     {
         private readonly Stack<double> _stack = new Stack<double>();
         private readonly int           _stackSize;
@@ -19,5 +20,8 @@ namespace TinyStackMachine
         //---------------------------------------------------------------------
         public double Pop() => _stack.Pop();
         public int Count    => _stack.Count;
+        //---------------------------------------------------------------------
+        public IEnumerator<double> GetEnumerator() => _stack.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()    => _stack.GetEnumerator();
     }
 }

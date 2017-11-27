@@ -13,6 +13,10 @@ namespace TinyStackMachine.Demo
 
             vm.Execute(tsmFile0);
             vm.Execute(tsmFile1);
+
+            var debugger = new Debugger(vm);
+            debugger.Debug(tsmFile0);
+            debugger.Debug(tsmFile1);
         }
     }
 }

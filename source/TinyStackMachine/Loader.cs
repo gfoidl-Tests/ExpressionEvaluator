@@ -17,7 +17,6 @@ namespace TinyStackMachine
             using (StreamReader sr = File.OpenText(_tsmFile))
                 while (!sr.EndOfStream)
                 {
-
                     lineNo++;
                     string line   = sr.ReadLine();
                     string[] cmds = line.Split(' ');

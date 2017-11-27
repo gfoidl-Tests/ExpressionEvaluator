@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using TinyStackMachine.Instructions;
 
 namespace TinyStackMachine
@@ -22,7 +21,13 @@ namespace TinyStackMachine
         public void Process(IEnumerable<Instruction> instructions)
         {
             foreach (Instruction instruction in instructions)
+            {
                 instruction.Execute(this);
+
+                this.InstructionProcessed?.Invoke(instruction);
+            }
         }
+        //---------------------------------------------------------------------
+        public event Action<Instruction> InstructionProcessed;
     }
 }
