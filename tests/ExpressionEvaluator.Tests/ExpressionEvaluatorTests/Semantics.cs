@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ExpressionCompiler.Parser;
 using NUnit.Framework;
 
 namespace ExpressionEvaluator.Tests.ExpressionEvaluatorTests

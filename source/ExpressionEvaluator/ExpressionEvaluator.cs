@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
@@ -9,20 +7,14 @@ namespace ExpressionEvaluator
 {
     public abstract class ExpressionEvaluator
     {
-        static ExpressionEvaluator()
-        {
-            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
-        }
-        //---------------------------------------------------------------------
         public double Evaluate(string expression, object arguments)
         {
-            ParsingResult result = this.Parse(expression);
+            Result result = this.Parse(expression);
 
             if (result == null) return double.NaN;
 
             Dictionary<string, double> args = GetArgs();
 
-            this.PrintTree(result);
             this.CheckParameterCount(result, args);
 
             double[] values = result.Parameters.Select(p => args[p]).ToArray();
@@ -45,19 +37,18 @@ namespace ExpressionEvaluator
         //---------------------------------------------------------------------
         public double Evaluate(string expression, params double[] arguments)
         {
-            ParsingResult result = this.Parse(expression);
+            Result result = this.Parse(expression);
 
             if (result == null) return double.NaN;
 
-            this.PrintTree(result);
             this.CheckParameterCount(result, arguments);
 
             return result.Delegate(arguments);
         }
         //---------------------------------------------------------------------
-        public abstract ParsingResult Parse(string expression);
+        public abstract Result Parse(string expression);
         //---------------------------------------------------------------------
-        private void CheckParameterCount(ParsingResult result, double[] arguments)
+        private void CheckParameterCount(Result result, double[] arguments)
         {
             if (result.Parameters.Count == arguments.Length) return;
 
@@ -68,7 +59,7 @@ namespace ExpressionEvaluator
             throw ParameterCountDoesntMatch(result.Parameters.Count, arguments.Length, paramsWithoutArgs);
         }
         //---------------------------------------------------------------------
-        private void CheckParameterCount(ParsingResult result, Dictionary<string, double> arguments)
+        private void CheckParameterCount(Result result, Dictionary<string, double> arguments)
         {
             if (result.Parameters.Count == arguments.Count) return;
 
@@ -89,14 +80,6 @@ namespace ExpressionEvaluator
                 $"Parameters without args are: {string.Join(", ", paramsWithoutArgs)}";
 
             return new ArgumentException(msg, "arguments");
-        }
-        //---------------------------------------------------------------------
-        [Conditional("DEBUG")]
-        private void PrintTree(ParsingResult result)
-        {
-            Console.WriteLine("\nExpression Tree");
-            Console.WriteLine(result.Tree);
-            Console.WriteLine($"No of params: {result.Parameters.Count}");
         }
     }
 }
