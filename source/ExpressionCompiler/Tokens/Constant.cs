@@ -30,7 +30,7 @@ namespace ExpressionCompiler.Tokens
             throw new InvalidOperationException($"No constant defined for {constant}");
         }
         //---------------------------------------------------------------------
-        public static bool IsDefined(string constant) => _constants.ContainsKey(constant);
+        public static bool IsDefined(string constant)      => _constants.ContainsKey(constant);
         public override void Accept(ITokenVisitor visitor) => visitor.Visit(this);
     }
 }

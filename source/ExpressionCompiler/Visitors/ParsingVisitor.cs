@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using ExpressionCompiler.Expressions;
 using ExpressionCompiler.Tokens;
 
 namespace ExpressionCompiler.Visitors
 {
     internal class ParsingVisitor : ITokenVisitor
     {
-        private readonly ParameterExpression _arrayParameter  = Expression.Parameter(typeof(double[]), "args");
+        private readonly ParameterExpression _arrayParameter  = new ParameterExpression(new ParameterToken(-1, "args"));
         private readonly List<string>        _parameters      = new List<string>();
         private readonly Stack<Expression>   _expressionStack = new Stack<Expression>();
         private readonly Stack<Token>        _operationStack  = new Stack<Token>();
@@ -23,7 +23,7 @@ namespace ExpressionCompiler.Visitors
         //---------------------------------------------------------------------
         public void Visit(ValueToken valueToken)
         {
-            var expr = Expression.Constant(valueToken.Value);
+            var expr = new ConstantExpression(valueToken);
             _expressionStack.Push(expr);
 
             _lastToken = valueToken;
@@ -45,8 +45,8 @@ namespace ExpressionCompiler.Visitors
             if (!_parameters.Contains(parameter.Parameter))
                 _parameters.Add(parameter.Parameter);
 
-            var idxExpr = Expression.Constant(_parameters.IndexOf(parameter.Parameter));
-            var expr    = Expression.ArrayIndex(_arrayParameter, idxExpr);
+            var idxExpr = new ConstantExpression(_parameters.IndexOf(parameter.Parameter));
+            var expr    = new ArrayIndexExpression(parameter, _arrayParameter, idxExpr);
 
             _expressionStack.Push(expr);
 

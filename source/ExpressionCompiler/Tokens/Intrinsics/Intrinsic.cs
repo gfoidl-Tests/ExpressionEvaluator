@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using ExpressionCompiler.Expressions;
 using ExpressionCompiler.Visitors;
 
 namespace ExpressionCompiler.Tokens
 {
-    internal sealed class Intrinsic : Token
+    internal abstract class Intrinsic : Token
     {
-        private readonly Func<Expression, Expression>                    _operation;
         private static readonly Dictionary<string, Func<int, Intrinsic>> _intrinsics;
         //---------------------------------------------------------------------
-        public static readonly Func<int, Intrinsic> Sinus   = p => new Intrinsic(p, Intrinsics.Sin, nameof(Sinus));
-        public static readonly Func<int, Intrinsic> Cosinus = p => new Intrinsic(p, Intrinsics.Cos, nameof(Cosinus));
-        public static readonly Func<int, Intrinsic> Tangens = p => new Intrinsic(p, Intrinsics.Tan, nameof(Tangens));
-        public static readonly Func<int, Intrinsic> Log     = p => new Intrinsic(p, Intrinsics.Log, nameof(Log));
+        public static readonly Func<int, Intrinsic> Sinus   = p => new Sinus(p);
+        public static readonly Func<int, Intrinsic> Cosinus = p => new Cosinus(p);
+        public static readonly Func<int, Intrinsic> Tangens = p => new Tangens(p);
+        public static readonly Func<int, Intrinsic> Log     = p => new Log(p);
         //---------------------------------------------------------------------
         static Intrinsic()
         {
@@ -26,9 +25,9 @@ namespace ExpressionCompiler.Tokens
             };
         }
         //---------------------------------------------------------------------
-        private Intrinsic(int position, Func<Expression, Expression> intrinsic, string name)
+        public Intrinsic(string name, int position)
             : base(name, position)
-            => _operation = intrinsic;
+        { }
         //---------------------------------------------------------------------
         public static explicit operator Intrinsic((string Name, int Position) intrinsic)
         {
@@ -38,8 +37,9 @@ namespace ExpressionCompiler.Tokens
             throw new InvalidOperationException($"No intrinsic defined for {intrinsic}");
         }
         //---------------------------------------------------------------------
-        public Expression Apply(Expression arg)        => _operation(arg);
-        public static bool IsDefined(string intrinsic) => _intrinsics.ContainsKey(intrinsic);
-        public override void Accept(ITokenVisitor visitor)  => visitor.Visit(this);
+        public abstract Expression Apply(Expression arg);
+        //---------------------------------------------------------------------
+        public static bool IsDefined(string intrinsic)     => _intrinsics.ContainsKey(intrinsic);
+        public override void Accept(ITokenVisitor visitor) => visitor.Visit(this);
     }
 }

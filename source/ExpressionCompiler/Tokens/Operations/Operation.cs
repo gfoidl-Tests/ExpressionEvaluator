@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq.Expressions;
+using ExpressionCompiler.Expressions;
 using ExpressionCompiler.Visitors;
 
 namespace ExpressionCompiler.Tokens
 {
     [DebuggerDisplay("{Name} | Precedence = {Precedence}")]
-    internal sealed class Operation : Token
+    internal abstract class Operation : Token
     {
-        private readonly Func<Expression, Expression, Expression>      _operation;
         private static readonly Dictionary<char, Func<int, Operation>> _operations;
         //---------------------------------------------------------------------
-        public static readonly Func<int, Operation> Addition       = p => new Operation(p, Expression.Add     , 1, nameof(Addition));
-        public static readonly Func<int, Operation> Subtraction    = p => new Operation(p, Expression.Subtract, 1, nameof(Subtraction));
-        public static readonly Func<int, Operation> Multiplication = p => new Operation(p, Expression.Multiply, 2, nameof(Multiplication));
-        public static readonly Func<int, Operation> Division       = p => new Operation(p, Expression.Divide  , 2, nameof(Division));
-        public static readonly Func<int, Operation> Exponentation  = p => new Operation(p, Expression.Power   , 3, nameof(Exponentation));
-        public static readonly Func<int, Operation> Modulo         = p => new Operation(p, Expression.Modulo  , 2, nameof(Modulo));
+        public static readonly Func<int, Operation> Addition       = p => new Addition(p);
+        public static readonly Func<int, Operation> Subtraction    = p => new Subtraction(p);
+        public static readonly Func<int, Operation> Multiplication = p => new Multiplication(p);
+        public static readonly Func<int, Operation> Division       = p => new Division(p);
+        public static readonly Func<int, Operation> Exponentation  = p => new Exponentation(p);
+        public static readonly Func<int, Operation> Modulo         = p => new Modulo(p);
         //---------------------------------------------------------------------
         public int Precedence { get; }
         //---------------------------------------------------------------------
@@ -34,12 +33,9 @@ namespace ExpressionCompiler.Tokens
             };
         }
         //---------------------------------------------------------------------
-        private Operation(int position, Func<Expression, Expression, Expression> operation, int precedence, string name)
+        protected Operation(string name, int precedence, int position)
             : base(name, position)
-        {
-            this.Precedence = precedence;
-            _operation      = operation;
-        }
+            => this.Precedence = precedence;
         //---------------------------------------------------------------------
         public static explicit operator Operation((char Name, int Position) operation)
         {
@@ -49,8 +45,9 @@ namespace ExpressionCompiler.Tokens
             throw new InvalidOperationException($"No Operation defined for {operation.Name}");
         }
         //---------------------------------------------------------------------
-        public Expression Apply(Expression left, Expression right) => _operation(left, right);
-        public static bool IsDefined(char operation)               => _operations.ContainsKey(operation);
-        public override void Accept(ITokenVisitor visitor)             => visitor.Visit(this);
+        public abstract Expression Apply(Expression left, Expression right);
+        //---------------------------------------------------------------------
+        public static bool IsDefined(char operation)       => _operations.ContainsKey(operation);
+        public override void Accept(ITokenVisitor visitor) => visitor.Visit(this);
     }
 }

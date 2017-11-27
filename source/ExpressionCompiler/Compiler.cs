@@ -4,7 +4,7 @@ namespace ExpressionCompiler
 {
     public class Compiler
     {
-        public ParsingResult Compile(string expression)
+        internal ParsingResult Compile(string expression)
         {
             if (string.IsNullOrWhiteSpace(expression)) return null;
 
