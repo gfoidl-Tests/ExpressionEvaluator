@@ -17,11 +17,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{EC9001B2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{EB3DBDA5-4741-4E90-8D7E-1576B876A381}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionEvaluator", "source\ExpressionEvaluator\ExpressionEvaluator.csproj", "{FDDB1485-B4FC-4F90-810D-A360A0B44940}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionEvaluator", "source\ExpressionEvaluator\ExpressionEvaluator.csproj", "{FDDB1485-B4FC-4F90-810D-A360A0B44940}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A48E7C53-1FA5-461C-81CC-0FFD0BADE7C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionEvaluator.Tests", "tests\ExpressionEvaluator.Tests\ExpressionEvaluator.Tests.csproj", "{A9A0D07D-319E-4547-BA58-B82F2B528AF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionEvaluator.Tests", "tests\ExpressionEvaluator.Tests\ExpressionEvaluator.Tests.csproj", "{A9A0D07D-319E-4547-BA58-B82F2B528AF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionCompiler", "source\ExpressionCompiler\ExpressionCompiler.csproj", "{05985C47-9158-4A5E-B686-3D7837027766}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionCompiler.Tests", "tests\ExpressionCompiler.Tests\ExpressionCompiler.Tests.csproj", "{F712E89D-59E9-4297-9099-BB02D2AE8926}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +41,14 @@ Global
 		{A9A0D07D-319E-4547-BA58-B82F2B528AF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9A0D07D-319E-4547-BA58-B82F2B528AF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9A0D07D-319E-4547-BA58-B82F2B528AF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05985C47-9158-4A5E-B686-3D7837027766}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05985C47-9158-4A5E-B686-3D7837027766}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05985C47-9158-4A5E-B686-3D7837027766}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05985C47-9158-4A5E-B686-3D7837027766}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F712E89D-59E9-4297-9099-BB02D2AE8926}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F712E89D-59E9-4297-9099-BB02D2AE8926}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F712E89D-59E9-4297-9099-BB02D2AE8926}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F712E89D-59E9-4297-9099-BB02D2AE8926}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +56,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{FDDB1485-B4FC-4F90-810D-A360A0B44940} = {EB3DBDA5-4741-4E90-8D7E-1576B876A381}
 		{A9A0D07D-319E-4547-BA58-B82F2B528AF3} = {A48E7C53-1FA5-461C-81CC-0FFD0BADE7C8}
+		{05985C47-9158-4A5E-B686-3D7837027766} = {EB3DBDA5-4741-4E90-8D7E-1576B876A381}
+		{F712E89D-59E9-4297-9099-BB02D2AE8926} = {A48E7C53-1FA5-461C-81CC-0FFD0BADE7C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9AD0FF5-193E-45B4-8B4A-4FF25CA752E6}

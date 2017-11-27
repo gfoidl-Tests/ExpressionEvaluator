@@ -1,6 +1,6 @@
-﻿using ExpressionEvaluator.Tokens;
+﻿using ExpressionCompiler.Tokens;
 
-namespace ExpressionEvaluator.Visitors
+namespace ExpressionCompiler.Visitors
 {
     public interface IVisitor
     {

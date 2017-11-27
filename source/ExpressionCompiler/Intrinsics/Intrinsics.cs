@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace ExpressionEvaluator
+namespace ExpressionCompiler
 {
     internal static class Intrinsics
     {

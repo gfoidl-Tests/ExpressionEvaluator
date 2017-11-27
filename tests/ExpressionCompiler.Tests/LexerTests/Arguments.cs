@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ExpressionEvaluator.Tokens;
+using ExpressionCompiler.Tokens;
 using NUnit.Framework;
 
-namespace ExpressionEvaluator.Tests.LexerTests
+namespace ExpressionCompiler.Tests.LexerTests
 {
     public class Arguments : BaseFixture
     {

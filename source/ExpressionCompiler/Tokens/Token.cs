@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
-using ExpressionEvaluator.Visitors;
+using ExpressionCompiler.Visitors;
 
-namespace ExpressionEvaluator.Tokens
+namespace ExpressionCompiler.Tokens
 {
     [DebuggerDisplay("{Name}")]
     public abstract class Token

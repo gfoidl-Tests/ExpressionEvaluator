@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ExpressionEvaluator.Tokens
+namespace ExpressionCompiler.Tokens
 {
     public abstract class Paranthesis : Token
     {

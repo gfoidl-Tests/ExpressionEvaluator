@@ -1,6 +1,6 @@
-﻿using ExpressionEvaluator.Visitors;
+﻿using ExpressionCompiler.Visitors;
 
-namespace ExpressionEvaluator.Tokens
+namespace ExpressionCompiler.Tokens
 {
     public sealed class ParameterToken : Token
     {

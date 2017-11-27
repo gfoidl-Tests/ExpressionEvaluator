@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ExpressionEvaluator.Tokens;
+using ExpressionCompiler.Tokens;
 
-namespace ExpressionEvaluator
+namespace ExpressionCompiler
 {
     internal class Lexer
     {

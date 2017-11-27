@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using ExpressionCompiler;
 
 namespace ExpressionEvaluator
 {

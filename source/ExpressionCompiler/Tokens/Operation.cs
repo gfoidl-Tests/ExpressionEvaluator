@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq.Expressions;
-using ExpressionEvaluator.Visitors;
+using ExpressionCompiler.Visitors;
 
-namespace ExpressionEvaluator.Tokens
+namespace ExpressionCompiler.Tokens
 {
     [DebuggerDisplay("{Name} | Precedence = {Precedence}")]
     public sealed class Operation : Token

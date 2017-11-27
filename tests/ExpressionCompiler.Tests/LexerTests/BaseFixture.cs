@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using NUnit.Framework;
 
-namespace ExpressionEvaluator.Tests.LexerTests
+namespace ExpressionCompiler.Tests.LexerTests
 {
     [TestFixture]
     public abstract class BaseFixture

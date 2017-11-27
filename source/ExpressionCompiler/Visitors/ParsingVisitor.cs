@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using ExpressionEvaluator.Tokens;
+using ExpressionCompiler.Tokens;
 
-namespace ExpressionEvaluator.Visitors
+namespace ExpressionCompiler.Visitors
 {
     internal class ParsingVisitor : IVisitor
     {

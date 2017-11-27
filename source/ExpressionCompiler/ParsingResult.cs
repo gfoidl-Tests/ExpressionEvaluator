@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace ExpressionEvaluator
+namespace ExpressionCompiler
 {
     public class ParsingResult
     {

@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 
-namespace ExpressionEvaluator.Tests.LexerTests
+namespace ExpressionCompiler.Tests.LexerTests
 {
     public class Constant : BaseFixture
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using ExpressionEvaluator.Visitors;
+using ExpressionCompiler.Visitors;
 
-namespace ExpressionEvaluator.Tokens
+namespace ExpressionCompiler.Tokens
 {
     public sealed class Intrinsic : Token
     {
