@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ExpressionCompiler.Tokens;
 
-namespace ExpressionCompiler.Visitors
+namespace ExpressionCompiler.Parser
 {
     internal class SemanticVisitor : ITokenVisitor
     {

@@ -1,6 +1,4 @@
-﻿using ExpressionCompiler.Visitors;
-
-namespace ExpressionCompiler.Tokens
+﻿namespace ExpressionCompiler.Tokens
 {
     internal class ValueToken : Token
     {
@@ -9,6 +7,6 @@ namespace ExpressionCompiler.Tokens
         public ValueToken(int position, double value) : base(value.ToString(), position) => this.Value = value;
         public ValueToken(int position, string value) : this(position, double.Parse(value)) { }
         //---------------------------------------------------------------------
-        public override void Accept(ITokenVisitor visitor) => visitor.Visit(this);
+        internal override void Accept(ITokenVisitor visitor) => visitor.Visit(this);
     }
 }

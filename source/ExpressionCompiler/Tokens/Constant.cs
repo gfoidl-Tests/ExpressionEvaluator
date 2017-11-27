@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using ExpressionCompiler.Visitors;
 
 namespace ExpressionCompiler.Tokens
 {
@@ -31,6 +30,6 @@ namespace ExpressionCompiler.Tokens
         }
         //---------------------------------------------------------------------
         public static bool IsDefined(string constant)      => _constants.ContainsKey(constant);
-        public override void Accept(ITokenVisitor visitor) => visitor.Visit(this);
+        internal override void Accept(ITokenVisitor visitor) => visitor.Visit(this);
     }
 }

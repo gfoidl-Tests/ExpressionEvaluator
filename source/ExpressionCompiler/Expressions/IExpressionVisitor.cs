@@ -1,6 +1,4 @@
-﻿using ExpressionCompiler.Expressions;
-
-namespace ExpressionCompiler.Visitors
+﻿namespace ExpressionCompiler.Expressions
 {
     internal interface IExpressionVisitor
     {

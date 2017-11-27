@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ExpressionCompiler.Expressions;
 using ExpressionCompiler.Tokens;
 
-namespace ExpressionCompiler.Visitors
+namespace ExpressionCompiler.Parser
 {
     internal class ParsingVisitor : ITokenVisitor
     {
@@ -18,7 +18,7 @@ namespace ExpressionCompiler.Visitors
         {
             this.EvaluateWhile(() => _operationStack.Count > 0);
 
-            return (_expressionStack.Pop(), _arrayParameter, _parameters);
+            return (_expressionStack.Pop(), _parameters);
         }
         //---------------------------------------------------------------------
         public void Visit(ValueToken valueToken)

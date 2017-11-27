@@ -1,5 +1,4 @@
 ﻿using ExpressionCompiler.Expressions;
-using ExpressionCompiler.Visitors;
 
 namespace ExpressionCompiler.Tokens
 {

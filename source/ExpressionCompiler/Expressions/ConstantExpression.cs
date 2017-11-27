@@ -1,5 +1,4 @@
 ﻿using ExpressionCompiler.Tokens;
-using ExpressionCompiler.Visitors;
 
 namespace ExpressionCompiler.Expressions
 {
@@ -15,6 +14,6 @@ namespace ExpressionCompiler.Expressions
             : base(new GeneratedToken())
             => this.Value = value;
         //---------------------------------------------------------------------
-        public override void Accept(IExpressionVisitor visitor) => visitor.Visit(this);
+        internal override void Accept(IExpressionVisitor visitor) => visitor.Visit(this);
     }
 }

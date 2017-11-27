@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using ExpressionCompiler.Parser;
 using NUnit.Framework;
 
 namespace ExpressionCompiler.Tests.LexerTests

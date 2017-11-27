@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ExpressionCompiler.Parser;
 using NUnit.Framework;
 
 namespace ExpressionCompiler.Tests.LexerTests

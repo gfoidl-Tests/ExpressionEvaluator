@@ -1,6 +1,4 @@
-﻿using ExpressionCompiler.Visitors;
-
-namespace ExpressionCompiler.Tokens
+﻿namespace ExpressionCompiler.Tokens
 {
     internal sealed class ParameterToken : Token
     {
@@ -10,6 +8,6 @@ namespace ExpressionCompiler.Tokens
             : base(parameter, position)
             => this.Parameter = parameter;
         //---------------------------------------------------------------------
-        public override void Accept(ITokenVisitor visitor) => visitor.Visit(this);
+        internal override void Accept(ITokenVisitor visitor) => visitor.Visit(this);
     }
 }

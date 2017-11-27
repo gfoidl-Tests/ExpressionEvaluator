@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using ExpressionCompiler.Parser;
 using ExpressionCompiler.Tokens;
 using NUnit.Framework;
 

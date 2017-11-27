@@ -1,7 +1,7 @@
 ﻿using System;
 using ExpressionCompiler.Tokens;
 
-namespace ExpressionCompiler
+namespace ExpressionCompiler.Parser
 {
     [Serializable]
     public class ParsingException : Exception

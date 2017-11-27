@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ExpressionCompiler.Expressions;
-using ExpressionCompiler.Visitors;
 
 namespace ExpressionCompiler.Tokens
 {
@@ -39,7 +38,7 @@ namespace ExpressionCompiler.Tokens
         //---------------------------------------------------------------------
         public abstract Expression Apply(Expression arg);
         //---------------------------------------------------------------------
-        public static bool IsDefined(string intrinsic)     => _intrinsics.ContainsKey(intrinsic);
-        public override void Accept(ITokenVisitor visitor) => visitor.Visit(this);
+        public static bool IsDefined(string intrinsic)       => _intrinsics.ContainsKey(intrinsic);
+        internal override void Accept(ITokenVisitor visitor) => visitor.Visit(this);
     }
 }

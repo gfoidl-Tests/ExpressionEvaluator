@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using ExpressionCompiler.Expressions;
-using ExpressionCompiler.Visitors;
 
 namespace ExpressionCompiler.Tokens
 {
@@ -47,7 +46,7 @@ namespace ExpressionCompiler.Tokens
         //---------------------------------------------------------------------
         public abstract Expression Apply(Expression left, Expression right);
         //---------------------------------------------------------------------
-        public static bool IsDefined(char operation)       => _operations.ContainsKey(operation);
-        public override void Accept(ITokenVisitor visitor) => visitor.Visit(this);
+        public static bool IsDefined(char operation)         => _operations.ContainsKey(operation);
+        internal override void Accept(ITokenVisitor visitor) => visitor.Visit(this);
     }
 }

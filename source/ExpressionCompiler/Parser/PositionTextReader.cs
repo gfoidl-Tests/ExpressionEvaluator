@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
 
-namespace ExpressionCompiler
+namespace ExpressionCompiler.Parser
 {
     [DebuggerNonUserCode]
     public class PositionTextReader

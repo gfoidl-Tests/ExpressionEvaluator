@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using ExpressionCompiler.Tokens;
-using ExpressionCompiler.Visitors;
 
-namespace ExpressionCompiler
+namespace ExpressionCompiler.Parser
 {
     internal class Parser
     {

@@ -1,6 +1,4 @@
-﻿using ExpressionCompiler.Tokens;
-
-namespace ExpressionCompiler.Visitors
+﻿namespace ExpressionCompiler.Tokens
 {
     internal interface ITokenVisitor
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ExpressionCompiler.Tokens;
 
-namespace ExpressionCompiler
+namespace ExpressionCompiler.Parser
 {
     internal class Lexer
     {
