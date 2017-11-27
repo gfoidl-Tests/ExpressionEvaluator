@@ -7,7 +7,7 @@ using ExpressionCompiler.Visitors;
 namespace ExpressionCompiler.Tokens
 {
     [DebuggerDisplay("{Name} | Precedence = {Precedence}")]
-    public sealed class Operation : Token
+    internal sealed class Operation : Token
     {
         private readonly Func<Expression, Expression, Expression>      _operation;
         private static readonly Dictionary<char, Func<int, Operation>> _operations;

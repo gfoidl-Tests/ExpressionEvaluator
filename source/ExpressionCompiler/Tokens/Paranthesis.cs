@@ -2,7 +2,7 @@
 
 namespace ExpressionCompiler.Tokens
 {
-    public abstract class Paranthesis : Token
+    internal abstract class Paranthesis : Token
     {
         public static readonly Func<int, LeftParanthesis> Left   = p => new LeftParanthesis(p);
         public static readonly Func<int, RightParanthesis> Right = p => new RightParanthesis(p);

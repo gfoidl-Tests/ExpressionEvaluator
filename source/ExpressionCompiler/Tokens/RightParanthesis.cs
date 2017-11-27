@@ -2,7 +2,7 @@
 
 namespace ExpressionCompiler.Tokens
 {
-    public sealed class RightParanthesis : Paranthesis
+    internal sealed class RightParanthesis : Paranthesis
     {
         internal RightParanthesis(int position) : base("Right )", position) { }
         //---------------------------------------------------------------------

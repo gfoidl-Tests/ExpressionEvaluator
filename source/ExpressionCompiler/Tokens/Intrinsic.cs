@@ -5,7 +5,7 @@ using ExpressionCompiler.Visitors;
 
 namespace ExpressionCompiler.Tokens
 {
-    public sealed class Intrinsic : Token
+    internal sealed class Intrinsic : Token
     {
         private readonly Func<Expression, Expression>                    _operation;
         private static readonly Dictionary<string, Func<int, Intrinsic>> _intrinsics;

@@ -4,7 +4,7 @@ using ExpressionCompiler.Visitors;
 namespace ExpressionCompiler.Tokens
 {
     [DebuggerDisplay("{Name}")]
-    public abstract class Token
+    internal abstract class Token
     {
         public string Name  { get; }
         public int Position { get; }

@@ -2,7 +2,7 @@
 
 namespace ExpressionCompiler.Tokens
 {
-    public sealed class ParameterToken : Token
+    internal sealed class ParameterToken : Token
     {
         public string Parameter { get; }
         //---------------------------------------------------------------------

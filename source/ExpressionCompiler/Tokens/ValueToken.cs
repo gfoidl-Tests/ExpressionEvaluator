@@ -2,7 +2,7 @@
 
 namespace ExpressionCompiler.Tokens
 {
-    public class ValueToken : Token
+    internal class ValueToken : Token
     {
         public double Value { get; }
         //---------------------------------------------------------------------

@@ -4,7 +4,7 @@ using ExpressionCompiler.Visitors;
 
 namespace ExpressionCompiler.Tokens
 {
-    public sealed class Constant : ValueToken
+    internal sealed class Constant : ValueToken
     {
         private static readonly Dictionary<string, Func<int, Constant>> _constants;
         //---------------------------------------------------------------------
