@@ -31,6 +31,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demos", "demos", "{60D88F92
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionCompiler.TinyStackMachine", "demos\ExpressionCompiler.TinyStackMachine\ExpressionCompiler.TinyStackMachine.csproj", "{ADE169A7-1795-45EC-B03C-D885DA30A8F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyStackMachine", "source\TinyStackMachine\TinyStackMachine.csproj", "{E5C35F61-4043-4D50-BE22-430D69515789}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyStackMachine.Demo", "demos\TinyStackMachine.Demo\TinyStackMachine.Demo.csproj", "{333D7238-2C61-4E7A-8CFC-26F518D0EDF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +61,14 @@ Global
 		{ADE169A7-1795-45EC-B03C-D885DA30A8F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADE169A7-1795-45EC-B03C-D885DA30A8F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADE169A7-1795-45EC-B03C-D885DA30A8F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5C35F61-4043-4D50-BE22-430D69515789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5C35F61-4043-4D50-BE22-430D69515789}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5C35F61-4043-4D50-BE22-430D69515789}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5C35F61-4043-4D50-BE22-430D69515789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{333D7238-2C61-4E7A-8CFC-26F518D0EDF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{333D7238-2C61-4E7A-8CFC-26F518D0EDF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{333D7238-2C61-4E7A-8CFC-26F518D0EDF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{333D7238-2C61-4E7A-8CFC-26F518D0EDF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +79,8 @@ Global
 		{05985C47-9158-4A5E-B686-3D7837027766} = {EB3DBDA5-4741-4E90-8D7E-1576B876A381}
 		{F712E89D-59E9-4297-9099-BB02D2AE8926} = {A48E7C53-1FA5-461C-81CC-0FFD0BADE7C8}
 		{ADE169A7-1795-45EC-B03C-D885DA30A8F5} = {60D88F92-DDD8-425E-A4F0-B4F6C6DB0847}
+		{E5C35F61-4043-4D50-BE22-430D69515789} = {EB3DBDA5-4741-4E90-8D7E-1576B876A381}
+		{333D7238-2C61-4E7A-8CFC-26F518D0EDF0} = {60D88F92-DDD8-425E-A4F0-B4F6C6DB0847}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9AD0FF5-193E-45B4-8B4A-4FF25CA752E6}

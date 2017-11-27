@@ -24,7 +24,7 @@ namespace ExpressionCompiler.Tokens
             };
         }
         //---------------------------------------------------------------------
-        public Intrinsic(string name, int position)
+        protected Intrinsic(string name, int position)
             : base(name, position)
         { }
         //---------------------------------------------------------------------

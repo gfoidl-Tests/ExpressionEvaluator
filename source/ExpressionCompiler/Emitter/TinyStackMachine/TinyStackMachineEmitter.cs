@@ -15,6 +15,7 @@ namespace ExpressionCompiler.Emitter.TinyStackMachine
         {
             _writer.WriteLine(".formula");
             this.Tree.Accept(this);
+            _writer.WriteLine("print");
             _writer.WriteLine(".end");
         }
         //---------------------------------------------------------------------

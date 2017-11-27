@@ -221,3 +221,4 @@ _Pvt_Extensions
 /source/packages
 /NuGet-Packed
 /demos/ExpressionCompiler.TinyStackMachine/tsm
+/demos/TinyStackMachine.Demo/Properties/launchSettings.json
