@@ -34,6 +34,18 @@ namespace ExpressionEvaluator.Tests.ExpressionEvaluatorTests
         }
         //---------------------------------------------------------------------
         [Test]
+        public void Variables_not_given_in_order_as_they_appear_in_expression___OK()
+        {
+            double a    = 2.1;
+            double b    = 4.4;
+            string expr = "b-a";
+
+            double actual = _sut.Evaluate(expr, new { a, b });
+
+            Assert.AreEqual(b - a, actual, 1e-10);
+        }
+        //---------------------------------------------------------------------
+        [Test]
         public void Multiple_variables___OK()
         {
             double a          = 2.6;
@@ -53,6 +65,15 @@ namespace ExpressionEvaluator.Tests.ExpressionEvaluatorTests
             string expr = "x+y";
 
             Assert.Throws<ArgumentException>(() => _sut.Evaluate(expr, a));
+        }
+        //---------------------------------------------------------------------
+        [Test]
+        public void Less_args_given_with_object___throws_ArgumentException()
+        {
+            double a = 2.234;
+            string expr = "a-b";
+
+            Assert.Throws<ArgumentException>(() => _sut.Evaluate(expr, new { a }));
         }
     }
 }
