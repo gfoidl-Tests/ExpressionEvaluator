@@ -23,6 +23,7 @@ namespace ExpressionCompiler.Emitter
         public abstract T Visit(CosExpression           cosExpression);
         public abstract T Visit(TanExpression           tanExpression);
         public abstract T Visit(LogExpression           logExpression);
+        public abstract T Visit(SqrtExpression          sqrtExpression);
         //---------------------------------------------------------------------
         public T Visit(ParameterExpression parameterExpression)
             => throw new InvalidOperationException("Should not be called internally");

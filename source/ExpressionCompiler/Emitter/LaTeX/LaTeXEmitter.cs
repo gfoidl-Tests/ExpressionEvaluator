@@ -68,6 +68,17 @@ namespace ExpressionCompiler.Emitter.LaTeX
         public override bool Visit(TanExpression tanExpression) => this.VisitInstrinsicsCore(tanExpression, @"\tan");
         public override bool Visit(LogExpression logExpression) => this.VisitInstrinsicsCore(logExpression, @"\log");
         //---------------------------------------------------------------------
+        public override bool Visit(SqrtExpression sqrtExpression)
+        {
+            _sb.Append(@"\sqrt{");
+
+            sqrtExpression.Argument.Accept(this);
+
+            _sb.Append("}");
+
+            return true;
+        }
+        //---------------------------------------------------------------------
         private bool VisitBinaryCore(BinaryExpression binaryExpression, string cmd)
         {
             this.VisitBinarySide(binaryExpression, binaryExpression.Left);

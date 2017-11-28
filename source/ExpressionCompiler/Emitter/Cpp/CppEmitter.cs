@@ -72,6 +72,7 @@ namespace ExpressionCompiler.Emitter.Cpp
         public override bool Visit(CosExpression cosExpression)                     => this.VisitInstrinsicsCore(cosExpression, "cos");
         public override bool Visit(TanExpression tanExpression)                     => this.VisitInstrinsicsCore(tanExpression, "tan");
         public override bool Visit(LogExpression logExpression)                     => this.VisitInstrinsicsCore(logExpression, "log");
+        public override bool Visit(SqrtExpression sqrtExpression)                   => this.VisitInstrinsicsCore(sqrtExpression, "sqrt");
         //---------------------------------------------------------------------
         private bool VisitBinaryCore(BinaryExpression binaryExpression, string cmd)
         {

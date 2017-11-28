@@ -12,15 +12,17 @@ namespace ExpressionCompiler.Tokens
         public static readonly Func<Position, Intrinsic> Cosinus = p => new Cosinus(p);
         public static readonly Func<Position, Intrinsic> Tangens = p => new Tangens(p);
         public static readonly Func<Position, Intrinsic> Log     = p => new Log(p);
+        public static readonly Func<Position, Intrinsic> Sqrt    = p => new Sqrt(p);
         //---------------------------------------------------------------------
         static Intrinsic()
         {
             _intrinsics = new Dictionary<string, Func<Position, Intrinsic>>
             {
-                ["sin"] = Sinus,
-                ["cos"] = Cosinus,
-                ["tan"] = Tangens,
-                ["log"] = Log
+                ["sin"]  = Sinus,
+                ["cos"]  = Cosinus,
+                ["tan"]  = Tangens,
+                ["log"]  = Log,
+                ["sqrt"] = Sqrt
             };
         }
         //---------------------------------------------------------------------
