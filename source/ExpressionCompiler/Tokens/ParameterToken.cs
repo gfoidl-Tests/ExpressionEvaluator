@@ -4,7 +4,7 @@
     {
         public string Parameter { get; }
         //---------------------------------------------------------------------
-        public ParameterToken(int position, string parameter)
+        public ParameterToken(Position position, string parameter)
             : base(parameter, position)
             => this.Parameter = parameter;
         //---------------------------------------------------------------------

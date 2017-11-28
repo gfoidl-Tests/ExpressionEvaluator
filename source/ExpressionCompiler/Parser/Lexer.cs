@@ -55,6 +55,8 @@ namespace ExpressionCompiler.Parser
             if (!IsValid((char)peek))
                 return false;
 
+            int startPosition = _tr.Position;
+
             while ((peek = _tr.Peek()) > -1)
             {
                 char next = (char)peek;
@@ -74,7 +76,7 @@ namespace ExpressionCompiler.Parser
 
             if (hasDigits)
             {
-                valueToken = new ValueToken(_tr.Position, sb.ToString());
+                valueToken = new ValueToken((startPosition + 1, _tr.Position), sb.ToString());
                 return true;
             }
 
@@ -93,13 +95,14 @@ namespace ExpressionCompiler.Parser
         private Operation ReadOperation()
         {
             char operation = (char)_tr.Read();
-            return (Operation)(operation, _tr.Position);
+            return (Operation)(operation, (_tr.Position, _tr.Position));
         }
         //---------------------------------------------------------------------
         private Token ReadIdentifier()
         {
             var sb = new StringBuilder();
             int peek;
+            int startPosition = _tr.Position;
 
             while ((peek = _tr.Peek()) > -1)
             {
@@ -116,12 +119,14 @@ namespace ExpressionCompiler.Parser
 
             string identifier = sb.ToString();
 
-            if (Intrinsic.IsDefined(identifier))
-                return (Intrinsic)(identifier, _tr.Position);
-            else if (Constant.IsDefined(identifier))
-                return (Constant)(identifier, _tr.Position);
+            Position position = (startPosition + 1, _tr.Position);
 
-            return new ParameterToken(_tr.Position, identifier);
+            if (Intrinsic.IsDefined(identifier))
+                return (Intrinsic)(identifier, position);
+            else if (Constant.IsDefined(identifier))
+                return (Constant)(identifier, position);
+
+            return new ParameterToken(position, identifier);
         }
     }
 }

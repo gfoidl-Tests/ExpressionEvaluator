@@ -9,7 +9,7 @@ namespace ExpressionCompiler
     {
         public IReadOnlyCollection<string> Parameters { get; private set; }
         //---------------------------------------------------------------------
-        public bool Compile(string expression)
+        public virtual bool Compile(string expression)
         {
             Expression tree = this.Parse(expression);
 

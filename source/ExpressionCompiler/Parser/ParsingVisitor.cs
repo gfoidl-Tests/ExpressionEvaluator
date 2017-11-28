@@ -7,7 +7,7 @@ namespace ExpressionCompiler.Parser
 {
     internal class ParsingVisitor : ITokenVisitor
     {
-        private readonly ParameterExpression _arrayParameter  = new ParameterExpression(new ParameterToken(-1, "args"));
+        private readonly ParameterExpression _arrayParameter  = new ParameterExpression(new ParameterToken(Position.NotDefined, "args"));
         private readonly List<string>        _parameters      = new List<string>();
         private readonly Stack<Expression>   _expressionStack = new Stack<Expression>();
         private readonly Stack<Token>        _operationStack  = new Stack<Token>();
@@ -32,7 +32,7 @@ namespace ExpressionCompiler.Parser
         public void Visit(Constant constant)
         {
             if (_lastToken is ValueToken)
-                this.Visit(Operation.Multiplication(-1));
+                this.Visit(Operation.Multiplication(Position.NotDefined));
 
             this.Visit(constant as ValueToken);
         }
@@ -40,7 +40,7 @@ namespace ExpressionCompiler.Parser
         public void Visit(ParameterToken parameter)
         {
             if (_lastToken is ValueToken)
-                this.Visit(Operation.Multiplication(-1));
+                this.Visit(Operation.Multiplication(Position.NotDefined));
 
             if (!_parameters.Contains(parameter.Parameter))
                 _parameters.Add(parameter.Parameter);
@@ -68,7 +68,7 @@ namespace ExpressionCompiler.Parser
         public void Visit(Intrinsic intrinsic)
         {
             if (_lastToken is ValueToken)
-                this.Visit(Operation.Multiplication(-1));
+                this.Visit(Operation.Multiplication(Position.NotDefined));
 
             _intrinsicStack.Push(intrinsic);
 
@@ -78,7 +78,7 @@ namespace ExpressionCompiler.Parser
         public void Visit(LeftParanthesis paranthesis)
         {
             if (_lastToken is RightParanthesis)
-                this.Visit(Operation.Multiplication(-1));
+                this.Visit(Operation.Multiplication(Position.NotDefined));
 
             _operationStack.Push(paranthesis);
 
