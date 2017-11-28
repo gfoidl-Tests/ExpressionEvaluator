@@ -222,3 +222,4 @@ _Pvt_Extensions
 /NuGet-Packed
 /demos/ExpressionCompiler.TinyStackMachine/tsm
 /demos/TinyStackMachine.Demo/Properties/launchSettings.json
+/demos/ExpressionCompiler.Cpp/cpp

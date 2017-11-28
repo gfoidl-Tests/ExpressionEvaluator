@@ -29,11 +29,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionCompiler.Tests", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "demos", "demos", "{60D88F92-DDD8-425E-A4F0-B4F6C6DB0847}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionCompiler.TinyStackMachine", "demos\ExpressionCompiler.TinyStackMachine\ExpressionCompiler.TinyStackMachine.csproj", "{ADE169A7-1795-45EC-B03C-D885DA30A8F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionCompiler.TinyStackMachine", "demos\ExpressionCompiler.TinyStackMachine\ExpressionCompiler.TinyStackMachine.csproj", "{ADE169A7-1795-45EC-B03C-D885DA30A8F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyStackMachine", "source\TinyStackMachine\TinyStackMachine.csproj", "{E5C35F61-4043-4D50-BE22-430D69515789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyStackMachine", "source\TinyStackMachine\TinyStackMachine.csproj", "{E5C35F61-4043-4D50-BE22-430D69515789}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyStackMachine.Demo", "demos\TinyStackMachine.Demo\TinyStackMachine.Demo.csproj", "{333D7238-2C61-4E7A-8CFC-26F518D0EDF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyStackMachine.Demo", "demos\TinyStackMachine.Demo\TinyStackMachine.Demo.csproj", "{333D7238-2C61-4E7A-8CFC-26F518D0EDF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionCompiler.Cpp", "demos\ExpressionCompiler.Cpp\ExpressionCompiler.Cpp.csproj", "{9A247518-2732-45D2-A055-5ADD146DB111}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{333D7238-2C61-4E7A-8CFC-26F518D0EDF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{333D7238-2C61-4E7A-8CFC-26F518D0EDF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{333D7238-2C61-4E7A-8CFC-26F518D0EDF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A247518-2732-45D2-A055-5ADD146DB111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A247518-2732-45D2-A055-5ADD146DB111}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A247518-2732-45D2-A055-5ADD146DB111}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A247518-2732-45D2-A055-5ADD146DB111}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{ADE169A7-1795-45EC-B03C-D885DA30A8F5} = {60D88F92-DDD8-425E-A4F0-B4F6C6DB0847}
 		{E5C35F61-4043-4D50-BE22-430D69515789} = {EB3DBDA5-4741-4E90-8D7E-1576B876A381}
 		{333D7238-2C61-4E7A-8CFC-26F518D0EDF0} = {60D88F92-DDD8-425E-A4F0-B4F6C6DB0847}
+		{9A247518-2732-45D2-A055-5ADD146DB111} = {60D88F92-DDD8-425E-A4F0-B4F6C6DB0847}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9AD0FF5-193E-45B4-8B4A-4FF25CA752E6}
