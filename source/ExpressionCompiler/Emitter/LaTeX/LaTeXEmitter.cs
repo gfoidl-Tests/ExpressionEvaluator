@@ -93,22 +93,15 @@ namespace ExpressionCompiler.Emitter.LaTeX
         //---------------------------------------------------------------------
         private void VisitBinarySide(BinaryExpression binaryExpression, Expression expression)
         {
-            if (_prettyPrintRules.NeedParanthesis(expression, binaryExpression))
-            {
-                StringBuilder globalBuilder = _sb;
-                _sb = new StringBuilder();
+            bool needParanthesis = _prettyPrintRules.NeedParanthesis(expression, binaryExpression);
 
-                expression.Accept(this);
+            if (needParanthesis)
+                _sb.Append(@"\left(");
 
-                globalBuilder
-                    .Append(@"\left(")
-                    .Append(_sb.ToString())
-                    .Append(@"\right)");
+            expression.Accept(this);
 
-                _sb = globalBuilder;
-            }
-            else
-                expression.Accept(this);
+            if (needParanthesis)
+                _sb.Append(@"\right)");
         }
     }
 }
