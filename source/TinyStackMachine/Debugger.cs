@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using ExpressionCompiler.Tokens;
 using TinyStackMachine.Instructions;
 
 namespace TinyStackMachine
 {
     public class Debugger
     {
-        private readonly VirtualMachine _vm;
-        private bool                    _autoHalt;
-        private string                  _expression;
-        private Dictionary<int, int>    _symbolMap;
+        private readonly VirtualMachine   _vm;
+        private bool                      _autoHalt;
+        private string                    _expression;
+        private Dictionary<int, Position> _symbolMap;
         //---------------------------------------------------------------------
         public Debugger(VirtualMachine vm) => _vm = vm;
         //---------------------------------------------------------------------
@@ -31,25 +32,24 @@ namespace TinyStackMachine
             Console.WriteLine($"Instruction: {instruction.Command}");
             Console.WriteLine();
 
-            if (_symbolMap.TryGetValue(instruction.LineNo, out int tokenPos) && tokenPos > 0)
+            if (_symbolMap.TryGetValue(instruction.LineNo, out Position tokenPos) && tokenPos != Position.NotDefined)
             {
-                tokenPos--;
-
-                for (int i = 0; i < tokenPos; ++i)
+                for (int i = 0; i < tokenPos.Start - 1; ++i)
                     Console.Write(_expression[i]);
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write(_expression[tokenPos]);
+                for (int i = tokenPos.Start; i <= tokenPos.End; ++i)
+                    Console.Write(_expression[i - 1]);
                 Console.ResetColor();
 
-                for (int i = tokenPos + 1; i < _expression.Length; ++i)
+                for (int i = tokenPos.End; i < _expression.Length; ++i)
                     Console.Write(_expression[i]);
 
                 Console.WriteLine();
                 Console.WriteLine();
-            }
 
-            this.PrintCpuStack();
+                this.PrintCpuStack();
+            }
 
             if (_autoHalt)
             {
@@ -73,13 +73,14 @@ namespace TinyStackMachine
             using (StreamReader sr = File.OpenText(dbgFile))
             {
                 _expression = sr.ReadLine();
-                _symbolMap  = new Dictionary<int, int>();
+                _symbolMap  = new Dictionary<int, Position>();
 
                 while (!sr.EndOfStream)
                 {
                     string[] cols = sr.ReadLine().Split(' ');
                     int line      = int.Parse(cols[0]);
-                    int tokenPos  = int.Parse(cols[1]);
+
+                    Position tokenPos = (int.Parse(cols[1]), int.Parse(cols[2]));
 
                     _symbolMap.Add(line, tokenPos);
                 }

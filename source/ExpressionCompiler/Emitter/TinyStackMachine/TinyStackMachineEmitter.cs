@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using ExpressionCompiler.Expressions;
+using ExpressionCompiler.Tokens;
 
 namespace ExpressionCompiler.Emitter.TinyStackMachine
 {
@@ -89,7 +90,9 @@ namespace ExpressionCompiler.Emitter.TinyStackMachine
         {
             if (_debugInfoWriter == null) return;
 
-            _debugInfoWriter.WriteLine($"{_emittedLine} {expression.Token.Position}");
+            Position position = expression.Token.Position;
+
+            _debugInfoWriter.WriteLine($"{_emittedLine} {position.Start} {position.End}");
         }
     }
 }

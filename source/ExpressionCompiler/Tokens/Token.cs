@@ -5,10 +5,10 @@ namespace ExpressionCompiler.Tokens
     [DebuggerDisplay("{Name}")]
     public abstract class Token
     {
-        public string Name  { get; }
-        public int Position { get; }
+        public string Name       { get; }
+        public Position Position { get; }
         //---------------------------------------------------------------------
-        protected Token(string name, int position)
+        protected Token(string name, Position position)
         {
             this.Name     = name;
             this.Position = position;
