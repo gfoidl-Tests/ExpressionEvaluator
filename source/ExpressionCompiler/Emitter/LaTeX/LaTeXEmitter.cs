@@ -6,7 +6,8 @@ namespace ExpressionCompiler.Emitter.LaTeX
 {
     internal class LaTeXEmitter : Emitter<bool>
     {
-        private readonly StringBuilder _sb;
+        private readonly PrettyPrintRules _prettyPrintRules = new PrettyPrintRules();
+        private StringBuilder             _sb;
         //---------------------------------------------------------------------
         public LaTeXEmitter(Expression tree, StringBuilder sb)
             : base(tree)
@@ -20,7 +21,7 @@ namespace ExpressionCompiler.Emitter.LaTeX
                 if (c.Name == "pi")
                     _sb.Append(@" \pi ");
                 else
-                    _sb.Append($" {constant.Token.Name} ");
+                    _sb.Append(" ").Append(constant.Token.Name).Append(" ");
             else
                 _sb.Append(" ").Append(constant.Value).Append(" ");
 
@@ -62,18 +63,19 @@ namespace ExpressionCompiler.Emitter.LaTeX
             return true;
         }
         //---------------------------------------------------------------------
-        public override bool Visit(SinExpression sinExpression) => this.VisitInstrinsicsCore(sinExpression, "sin");
-        public override bool Visit(CosExpression cosExpression) => this.VisitInstrinsicsCore(cosExpression, "cos");
-        public override bool Visit(TanExpression tanExpression) => this.VisitInstrinsicsCore(tanExpression, "tan");
-        public override bool Visit(LogExpression logExpression) => this.VisitInstrinsicsCore(logExpression, "log");
+        public override bool Visit(SinExpression sinExpression) => this.VisitInstrinsicsCore(sinExpression, @"\sin");
+        public override bool Visit(CosExpression cosExpression) => this.VisitInstrinsicsCore(cosExpression, @"\cos");
+        public override bool Visit(TanExpression tanExpression) => this.VisitInstrinsicsCore(tanExpression, @"\tan");
+        public override bool Visit(LogExpression logExpression) => this.VisitInstrinsicsCore(logExpression, @"\log");
         //---------------------------------------------------------------------
         private bool VisitBinaryCore(BinaryExpression binaryExpression, string cmd)
         {
-            _sb.Append(@"\left(");
-            binaryExpression.Left.Accept(this);
-            _sb.Append(cmd);
-            binaryExpression.Right.Accept(this);
-            _sb.Append(@"\right)");
+            this.VisitBinarySide(binaryExpression, binaryExpression.Left);
+
+            if (_prettyPrintRules.PrintOperator(binaryExpression))
+                _sb.Append(cmd);
+
+            this.VisitBinarySide(binaryExpression, binaryExpression.Right);
 
             return true;
         }
@@ -87,6 +89,26 @@ namespace ExpressionCompiler.Emitter.LaTeX
             _sb.Append(@"\right)");
 
             return true;
+        }
+        //---------------------------------------------------------------------
+        private void VisitBinarySide(BinaryExpression binaryExpression, Expression expression)
+        {
+            if (_prettyPrintRules.NeedParanthesis(expression, binaryExpression))
+            {
+                StringBuilder globalBuilder = _sb;
+                _sb = new StringBuilder();
+
+                expression.Accept(this);
+
+                globalBuilder
+                    .Append(@"\left(")
+                    .Append(_sb.ToString())
+                    .Append(@"\right)");
+
+                _sb = globalBuilder;
+            }
+            else
+                expression.Accept(this);
         }
     }
 }
