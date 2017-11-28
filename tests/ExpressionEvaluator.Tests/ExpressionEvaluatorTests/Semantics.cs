@@ -46,6 +46,15 @@ namespace ExpressionEvaluator.Tests.ExpressionEvaluatorTests
         }
         //---------------------------------------------------------------------
         [Test]
+        public void Exponentation_following_other_operation___OK()
+        {
+            string exp = "2+e^4";
+            var sut    = new BasicExpressionEvaluator();
+
+            double actual = sut.Evaluate(exp);
+        }
+        //---------------------------------------------------------------------
+        [Test]
         public void Intrinsic_not_followed_by_parantheis___throws_ParsingException(
             [Values("sin 3.14", "cos 0.84")] string expr)
         {

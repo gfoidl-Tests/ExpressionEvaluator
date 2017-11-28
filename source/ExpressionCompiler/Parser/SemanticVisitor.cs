@@ -21,7 +21,7 @@ namespace ExpressionCompiler.Parser
         {
             this.CheckIntrinsic(operation);
 
-            if (_lastToken is Operation)
+            if (_lastToken is Operation && !(operation is Exponentation))
                 throw ParsingException.OperationFollowedByOperation(_lastToken, operation);
 
             _lastToken = operation;
