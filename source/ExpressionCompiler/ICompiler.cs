@@ -6,6 +6,6 @@ namespace ExpressionCompiler
     {
         IReadOnlyCollection<string> Parameters { get; }
         //---------------------------------------------------------------------
-        bool Compile(string expression, bool optimize = false);
+        bool Compile(string expression, OptimizationLevel optimizationLevel = OptimizationLevel.None);
     }
 }

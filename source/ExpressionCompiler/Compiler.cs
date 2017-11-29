@@ -9,18 +9,13 @@ namespace ExpressionCompiler
     {
         public IReadOnlyCollection<string> Parameters { get; private set; }
         //---------------------------------------------------------------------
-        public virtual bool Compile(string expression, bool optimize = false)
+        public virtual bool Compile(string expression, OptimizationLevel optimizationLevel = OptimizationLevel.None)
         {
             Expression tree = this.Parse(expression);
 
             if (tree == null) return false;
 
-            if (optimize)
-            {
-                var optimizer = new Optimizer.Optimizer(tree);
-                tree = optimizer.Optimize();
-            }
-
+            tree = this.Optimize(tree, optimizationLevel);
             return this.Emit(tree);
         }
         //---------------------------------------------------------------------
@@ -39,5 +34,21 @@ namespace ExpressionCompiler
         }
         //---------------------------------------------------------------------
         protected abstract bool Emit(Expression tree);
+        //---------------------------------------------------------------------
+        private Expression Optimize(Expression tree, OptimizationLevel optimizationLevel)
+        {
+            if (optimizationLevel == OptimizationLevel.None) return tree;
+
+            for (int i = 0; i < 10; ++i)
+            {
+                var optimizer = new Optimizer.Optimizer(tree);
+                tree          = optimizer.Optimize();
+
+                if (optimizationLevel == OptimizationLevel.Simple)
+                    break;
+            }
+
+            return tree;
+        }
     }
 }
