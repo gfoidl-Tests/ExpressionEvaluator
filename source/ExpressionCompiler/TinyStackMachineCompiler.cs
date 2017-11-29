@@ -15,11 +15,11 @@ namespace ExpressionCompiler
             _debugInfoWriter = debugInfoWriter;
         }
         //---------------------------------------------------------------------
-        public override bool Compile(string expression)
+        public override bool Compile(string expression, bool optimize = false)
         {
             _debugInfoWriter?.WriteLine(expression);
 
-            return base.Compile(expression);
+            return base.Compile(expression, optimize);
         }
         //---------------------------------------------------------------------
         protected override bool Emit(Expression tree)

@@ -9,11 +9,17 @@ namespace ExpressionCompiler
     {
         public IReadOnlyCollection<string> Parameters { get; private set; }
         //---------------------------------------------------------------------
-        public virtual bool Compile(string expression)
+        public virtual bool Compile(string expression, bool optimize = false)
         {
             Expression tree = this.Parse(expression);
 
             if (tree == null) return false;
+
+            if (optimize)
+            {
+                var optimizer = new Optimizer.Optimizer(tree);
+                tree = optimizer.Optimize();
+            }
 
             return this.Emit(tree);
         }
