@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		LICENSE = LICENSE
 		ReadMe.md = ReadMe.md
 	EndProjectSection
 EndProject
@@ -39,9 +40,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionCompiler.Cpp", "d
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionCompiler.LaTeX", "demos\ExpressionCompiler.LaTeX\ExpressionCompiler.LaTeX.csproj", "{A8ABF1E9-C2C9-4EA2-93C9-52FCCEAFA71A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionCompiler.GraphViz", "demos\ExpressionCompiler.GraphViz\ExpressionCompiler.GraphViz.csproj", "{830441FF-E84D-4590-97E9-FFCD3873AAA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionCompiler.GraphViz", "demos\ExpressionCompiler.GraphViz\ExpressionCompiler.GraphViz.csproj", "{830441FF-E84D-4590-97E9-FFCD3873AAA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionCompiler.Optimizer", "demos\ExpressionCompiler.Optimizer\ExpressionCompiler.Optimizer.csproj", "{21F6372E-DDAE-4B43-AA91-6FF5D6EEA208}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionCompiler.Optimizer", "demos\ExpressionCompiler.Optimizer\ExpressionCompiler.Optimizer.csproj", "{21F6372E-DDAE-4B43-AA91-6FF5D6EEA208}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
