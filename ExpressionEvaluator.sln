@@ -41,6 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpressionCompiler.LaTeX", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionCompiler.GraphViz", "demos\ExpressionCompiler.GraphViz\ExpressionCompiler.GraphViz.csproj", "{830441FF-E84D-4590-97E9-FFCD3873AAA2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionCompiler.Optimizer", "demos\ExpressionCompiler.Optimizer\ExpressionCompiler.Optimizer.csproj", "{21F6372E-DDAE-4B43-AA91-6FF5D6EEA208}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{830441FF-E84D-4590-97E9-FFCD3873AAA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{830441FF-E84D-4590-97E9-FFCD3873AAA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{830441FF-E84D-4590-97E9-FFCD3873AAA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21F6372E-DDAE-4B43-AA91-6FF5D6EEA208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21F6372E-DDAE-4B43-AA91-6FF5D6EEA208}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21F6372E-DDAE-4B43-AA91-6FF5D6EEA208}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21F6372E-DDAE-4B43-AA91-6FF5D6EEA208}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +108,7 @@ Global
 		{9A247518-2732-45D2-A055-5ADD146DB111} = {60D88F92-DDD8-425E-A4F0-B4F6C6DB0847}
 		{A8ABF1E9-C2C9-4EA2-93C9-52FCCEAFA71A} = {60D88F92-DDD8-425E-A4F0-B4F6C6DB0847}
 		{830441FF-E84D-4590-97E9-FFCD3873AAA2} = {60D88F92-DDD8-425E-A4F0-B4F6C6DB0847}
+		{21F6372E-DDAE-4B43-AA91-6FF5D6EEA208} = {60D88F92-DDD8-425E-A4F0-B4F6C6DB0847}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9AD0FF5-193E-45B4-8B4A-4FF25CA752E6}

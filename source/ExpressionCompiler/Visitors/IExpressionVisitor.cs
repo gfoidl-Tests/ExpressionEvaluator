@@ -3,6 +3,7 @@
     internal interface IExpressionVisitor<T>
     {
         T Visit(ConstantExpression      constant);
+        T Visit(IndexExpression         indexExpression);
         T Visit(ParameterExpression     parameterExpression);
         T Visit(ArrayIndexExpression    arrayIndexExpression);
         T Visit(AddExpression           addExpression);

@@ -2,18 +2,11 @@
 
 namespace ExpressionCompiler.Expressions
 {
-    internal class ConstantExpression : Expression
+    internal class ConstantExpression : ConstantExpression<double>
     {
-        public object Value { get; }
-        //---------------------------------------------------------------------
-        public ConstantExpression(ValueToken token)
-            : base(token)
-            => this.Value = token.Value;
-        //---------------------------------------------------------------------
-        public ConstantExpression(object value)
-            : base(new GeneratedToken())
-            => this.Value = value;
-        //---------------------------------------------------------------------
+        public ConstantExpression(ValueToken token) : base(token, token.Value) { }
+        public ConstantExpression(double value)     : base(value) { }
+        //--------------------------------------------------------------------- 
         internal override T Accept<T>(IExpressionVisitor<T> visitor) => visitor.Visit(this);
     }
 }

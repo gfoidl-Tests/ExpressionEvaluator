@@ -45,7 +45,7 @@ namespace ExpressionCompiler.Parser
             if (!_parameters.Contains(parameter.Parameter))
                 _parameters.Add(parameter.Parameter);
 
-            var idxExpr = new ConstantExpression(_parameters.IndexOf(parameter.Parameter));
+            var idxExpr = new IndexExpression(_parameters.IndexOf(parameter.Parameter));
             var expr    = new ArrayIndexExpression(parameter, _arrayParameter, idxExpr);
 
             _expressionStack.Push(expr);

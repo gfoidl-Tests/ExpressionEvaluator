@@ -45,7 +45,10 @@ namespace ExpressionCompiler.Emitter.Cpp
             _writer.WriteLine();
         }
         //---------------------------------------------------------------------
-        public override bool Visit(ConstantExpression constant)
+        public override bool Visit(ConstantExpression constant)     => this.VisitConstant(constant);
+        public override bool Visit(IndexExpression indexExpression) => this.VisitConstant(indexExpression);
+        //---------------------------------------------------------------------
+        private bool VisitConstant<T>(ConstantExpression<T> constant) where T : struct
         {
             _writer.Write(constant.Value);
             return true;

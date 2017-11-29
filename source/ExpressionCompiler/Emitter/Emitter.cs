@@ -25,6 +25,8 @@ namespace ExpressionCompiler.Emitter
         public abstract T Visit(LogExpression           logExpression);
         public abstract T Visit(SqrtExpression          sqrtExpression);
         //---------------------------------------------------------------------
+        public virtual T Visit(IndexExpression indexExpression) => default;
+        //---------------------------------------------------------------------
         public T Visit(ParameterExpression parameterExpression)
             => throw new InvalidOperationException("Should not be called internally");
     }

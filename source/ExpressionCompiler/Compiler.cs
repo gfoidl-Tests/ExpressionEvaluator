@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ExpressionCompiler.Expressions;
 using ExpressionCompiler.Parser;
@@ -9,12 +10,13 @@ namespace ExpressionCompiler
     {
         public IReadOnlyCollection<string> Parameters { get; private set; }
         //---------------------------------------------------------------------
-        public virtual bool Compile(string expression)
+        public virtual bool Compile(string expression, OptimizationLevel optimizationLevel = OptimizationLevel.None)
         {
             Expression tree = this.Parse(expression);
 
             if (tree == null) return false;
 
+            tree = this.Optimize(tree, optimizationLevel);
             return this.Emit(tree);
         }
         //---------------------------------------------------------------------
@@ -33,5 +35,27 @@ namespace ExpressionCompiler
         }
         //---------------------------------------------------------------------
         protected abstract bool Emit(Expression tree);
+        //---------------------------------------------------------------------
+        private Expression Optimize(Expression tree, OptimizationLevel optimizationLevel)
+        {
+            if (optimizationLevel == OptimizationLevel.None) return tree;
+
+            for (int i = 0; i < 20; ++i)
+            {
+#if DEBUG
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"Optimization pass # {i + 1}");
+                Console.ResetColor();
+#endif
+                var optimizer = new Optimizer.Optimizer(tree);
+                tree          = optimizer.Optimize();
+
+                if (optimizationLevel == OptimizationLevel.Simple
+                    || !optimizer.DidAnyOptimization)
+                    break;
+            }
+
+            return tree;
+        }
     }
 }

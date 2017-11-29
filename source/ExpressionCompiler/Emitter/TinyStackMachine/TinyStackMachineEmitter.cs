@@ -31,7 +31,10 @@ namespace ExpressionCompiler.Emitter.TinyStackMachine
             _emittedLine++;
         }
         //---------------------------------------------------------------------
-        public override bool Visit(ConstantExpression constant)
+        public override bool Visit(ConstantExpression constant)     => this.VisitConstant(constant);
+        public override bool Visit(IndexExpression indexExpression) => this.VisitConstant(indexExpression);
+        //---------------------------------------------------------------------
+        private bool VisitConstant<T>(ConstantExpression<T> constant) where T : struct
         {
             _writer.WriteLine($"push {constant.Value}");
             _emittedLine++;
