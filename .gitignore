@@ -224,3 +224,4 @@ _Pvt_Extensions
 /demos/TinyStackMachine.Demo/Properties/launchSettings.json
 /demos/ExpressionCompiler.Cpp/cpp
 /demos/ExpressionCompiler.LaTeX/latex
+/demos/ExpressionCompiler.GraphViz/dot
