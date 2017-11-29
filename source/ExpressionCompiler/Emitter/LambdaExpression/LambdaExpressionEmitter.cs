@@ -31,6 +31,7 @@ namespace ExpressionCompiler.Emitter.LambdaExpression
         public override LE.Expression Visit(CosExpression           cosExpression)           => this.VisitIntrinsicsCore(cosExpression, Intrinsics.Cos);
         public override LE.Expression Visit(TanExpression           tanExpression)           => this.VisitIntrinsicsCore(tanExpression, Intrinsics.Tan);
         public override LE.Expression Visit(LogExpression           logExpression)           => this.VisitIntrinsicsCore(logExpression, Intrinsics.Log);
+        public override LE.Expression Visit(SqrtExpression          sqrtExpression)          => this.VisitIntrinsicsCore(sqrtExpression, Intrinsics.Sqrt);
         //---------------------------------------------------------------------
         private LE.Expression VisitBinaryCore(
             BinaryExpression binaryExpression,

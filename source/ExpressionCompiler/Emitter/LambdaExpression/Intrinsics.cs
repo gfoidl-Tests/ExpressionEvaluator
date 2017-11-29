@@ -6,10 +6,11 @@ namespace ExpressionCompiler.Emitter.LambdaExpression
 {
     internal static class Intrinsics
     {
-        public static Expression Sin(Expression argument) => Core(argument, typeof(Math).GetMethod(nameof(Math.Sin)));
-        public static Expression Cos(Expression argument) => Core(argument, typeof(Math).GetMethod(nameof(Math.Cos)));
-        public static Expression Tan(Expression argument) => Core(argument, typeof(Math).GetMethod(nameof(Math.Tan)));
-        public static Expression Log(Expression argument) => Core(argument, typeof(Math).GetMethod(nameof(Math.Log), new Type[] { typeof(double) }));
+        public static Expression Sin(Expression argument)  => Core(argument, typeof(Math).GetMethod(nameof(Math.Sin)));
+        public static Expression Cos(Expression argument)  => Core(argument, typeof(Math).GetMethod(nameof(Math.Cos)));
+        public static Expression Tan(Expression argument)  => Core(argument, typeof(Math).GetMethod(nameof(Math.Tan)));
+        public static Expression Log(Expression argument)  => Core(argument, typeof(Math).GetMethod(nameof(Math.Log), new Type[] { typeof(double) }));
+        public static Expression Sqrt(Expression argument) => Core(argument, typeof(Math).GetMethod(nameof(Math.Sqrt)));
         //---------------------------------------------------------------------
         private static Expression Core(Expression argument, MethodInfo method)
         {

@@ -15,5 +15,6 @@
         T Visit(CosExpression           cosExpression);
         T Visit(TanExpression           tanExpression);
         T Visit(LogExpression           logExpression);
+        T Visit(SqrtExpression          sqrtExpression);
     }
 }

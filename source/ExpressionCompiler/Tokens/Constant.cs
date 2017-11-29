@@ -7,8 +7,8 @@ namespace ExpressionCompiler.Tokens
     {
         private static readonly Dictionary<string, Func<Position, Constant>> _constants;
         //---------------------------------------------------------------------
-        public static readonly Func<Position, Constant> Pi = p => new Constant(p, Math.PI);
-        public static readonly Func<Position, Constant> E  = p => new Constant(p, Math.E);
+        public static readonly Func<Position, Constant> Pi = p => new Constant(p, Math.PI, "pi");
+        public static readonly Func<Position, Constant> E  = p => new Constant(p, Math.E , "e");
         //---------------------------------------------------------------------
         static Constant()
         {
@@ -19,7 +19,7 @@ namespace ExpressionCompiler.Tokens
             };
         }
         //---------------------------------------------------------------------
-        private Constant(Position position, double value) : base(position, value) { }
+        private Constant(Position position, double value, string name) : base(position, value, name) { }
         //---------------------------------------------------------------------
         public static explicit operator Constant((string Name, Position Position) constant)
         {

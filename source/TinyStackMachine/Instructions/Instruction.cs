@@ -25,6 +25,7 @@ namespace TinyStackMachine.Instructions
         public static readonly Func<int, string, Instruction> Cos        = (n, s) => new IntrinsicInstruction("cos", n, s, Math.Cos);
         public static readonly Func<int, string, Instruction> Tan        = (n, s) => new IntrinsicInstruction("tan", n, s, Math.Tan);
         public static readonly Func<int, string, Instruction> Log        = (n, s) => new IntrinsicInstruction("log", n, s, Math.Log);
+        public static readonly Func<int, string, Instruction> Sqrt       = (n, s) => new IntrinsicInstruction("sqrt", n, s, Math.Sqrt);
         public static readonly Func<int, string, Instruction> Print      = (n, s) => new Print("print", n, s);
         //---------------------------------------------------------------------
         static Instruction()
@@ -45,6 +46,7 @@ namespace TinyStackMachine.Instructions
                 ["cos"]       = Cos,
                 ["tan"]       = Tan,
                 ["log"]       = Log,
+                ["sqrt"]      = Sqrt,
                 ["print"]     = Print
             };
         }
