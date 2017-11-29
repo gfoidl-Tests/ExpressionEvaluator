@@ -28,7 +28,7 @@ namespace ExpressionCompiler.Tests.Emitter.LaTeX.PrettyPrintRulesTests
         {
             BinaryExpression binaryExpression = new MultiplyExpression(
                 default,
-                new ConstantExpression(Constant.Pi),
+                new ConstantExpression(Constant.Pi(default)),
                 new ArrayIndexExpression(default, default, default));
 
             var sut = new PrettyPrintRules();

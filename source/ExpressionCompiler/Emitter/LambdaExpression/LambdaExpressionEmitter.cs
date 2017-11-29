@@ -20,6 +20,7 @@ namespace ExpressionCompiler.Emitter.LambdaExpression
         }
         //---------------------------------------------------------------------
         public override LE.Expression Visit(ConstantExpression      constant)                => LE.Expression.Constant(constant.Value);
+        public override LE.Expression Visit(IndexExpression         indexExpression)         => LE.Expression.Constant(indexExpression.Value);
         public override LE.Expression Visit(ArrayIndexExpression    arrayIndexExpression)    => LE.Expression.ArrayIndex(_arrayParameter, arrayIndexExpression.Right.Accept(this));
         public override LE.Expression Visit(AddExpression           addExpression)           => this.VisitBinaryCore(addExpression          , LE.Expression.Add);
         public override LE.Expression Visit(SubtractExpression      subtractExpression)      => this.VisitBinaryCore(subtractExpression     , LE.Expression.Subtract);
