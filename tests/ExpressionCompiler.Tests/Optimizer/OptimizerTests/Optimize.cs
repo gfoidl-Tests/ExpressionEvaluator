@@ -22,6 +22,7 @@ namespace ExpressionCompiler.Tests.Optimizer.OptimizerTests
             ConstantExpression actual = sut.Optimize() as ConstantExpression;
 
             Assert.AreEqual(a + b, actual.Value, 1e-10);
+            Assert.IsTrue(sut.DidAnyOptimization);
         }
         //---------------------------------------------------------------------
         [Test]
@@ -39,6 +40,7 @@ namespace ExpressionCompiler.Tests.Optimizer.OptimizerTests
             ConstantExpression actual = sut.Optimize() as ConstantExpression;
 
             Assert.AreEqual(a - b, actual.Value, 1e-10);
+            Assert.IsTrue(sut.DidAnyOptimization);
         }
         //---------------------------------------------------------------------
         [Test]
@@ -56,6 +58,7 @@ namespace ExpressionCompiler.Tests.Optimizer.OptimizerTests
             ConstantExpression actual = sut.Optimize() as ConstantExpression;
 
             Assert.AreEqual(a * b, actual.Value, 1e-10);
+            Assert.IsTrue(sut.DidAnyOptimization);
         }
         //---------------------------------------------------------------------
         [Test]
@@ -73,6 +76,7 @@ namespace ExpressionCompiler.Tests.Optimizer.OptimizerTests
             ConstantExpression actual = sut.Optimize() as ConstantExpression;
 
             Assert.AreEqual(a / b, actual.Value, 1e-10);
+            Assert.IsTrue(sut.DidAnyOptimization);
         }
         //---------------------------------------------------------------------
         [Test]
@@ -95,6 +99,7 @@ namespace ExpressionCompiler.Tests.Optimizer.OptimizerTests
 
             Assert.AreEqual(a, actual.Left);
             Assert.AreEqual(a, actual.Right);
+            Assert.IsTrue(sut.DidAnyOptimization);
         }
         //---------------------------------------------------------------------
         [Test]
@@ -117,6 +122,7 @@ namespace ExpressionCompiler.Tests.Optimizer.OptimizerTests
 
             Assert.AreEqual(a, actual.Left);
             Assert.AreEqual(a, actual.Right);
+            Assert.IsTrue(sut.DidAnyOptimization);
         }
         //---------------------------------------------------------------------
         [Test]
@@ -139,6 +145,7 @@ namespace ExpressionCompiler.Tests.Optimizer.OptimizerTests
 
             Assert.AreEqual(a, actual.Left);
             Assert.AreEqual(a, actual.Right);
+            Assert.IsTrue(sut.DidAnyOptimization);
         }
         //---------------------------------------------------------------------
         [Test]
@@ -159,7 +166,8 @@ namespace ExpressionCompiler.Tests.Optimizer.OptimizerTests
 
             Expression actual = sut.Optimize();
 
-            Assert.AreSame(pow, actual);
+            Assert.IsInstanceOf<ExponentationExpression>(actual);
+            Assert.IsFalse(sut.DidAnyOptimization);
         }
     }
 }

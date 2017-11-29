@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ExpressionCompiler.Expressions;
 using ExpressionCompiler.Parser;
@@ -39,12 +40,18 @@ namespace ExpressionCompiler
         {
             if (optimizationLevel == OptimizationLevel.None) return tree;
 
-            for (int i = 0; i < 10; ++i)
+            for (int i = 0; i < 20; ++i)
             {
+#if DEBUG
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"Optimization pass # {i + 1}");
+                Console.ResetColor();
+#endif
                 var optimizer = new Optimizer.Optimizer(tree);
                 tree          = optimizer.Optimize();
 
-                if (optimizationLevel == OptimizationLevel.Simple)
+                if (optimizationLevel == OptimizationLevel.Simple
+                    || !optimizer.DidAnyOptimization)
                     break;
             }
 

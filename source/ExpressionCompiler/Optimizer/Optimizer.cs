@@ -26,8 +26,9 @@ namespace ExpressionCompiler.Optimizer
             ArrayIndexExpression left  = exponentationExpression.Left  as ArrayIndexExpression;
             ConstantExpression   right = exponentationExpression.Right as ConstantExpression;
 
-            if (left == null || right == null || right.Value != 2) return exponentationExpression;
+            if (left == null || right == null || right.Value != 2) return base.Visit(exponentationExpression);
 
+            this.DidAnyOptimization = true;
             return new MultiplyExpression(exponentationExpression.Token as Operation, left, left);
         }
         //---------------------------------------------------------------------
@@ -51,6 +52,7 @@ namespace ExpressionCompiler.Optimizer
 
             if (constant.Value != 2) return null;
 
+            this.DidAnyOptimization = true;
             return new AddExpression(multiplyExpression.Token as Operation, parameter, parameter);
         }
         //---------------------------------------------------------------------
@@ -63,6 +65,7 @@ namespace ExpressionCompiler.Optimizer
 
             double res = operation(left.Value, right.Value);
 
+            this.DidAnyOptimization = true;
             return new ConstantExpression(res);
         }
     }

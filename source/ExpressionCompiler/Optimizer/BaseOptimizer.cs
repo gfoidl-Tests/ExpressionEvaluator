@@ -6,7 +6,8 @@ namespace ExpressionCompiler.Optimizer
 {
     internal abstract class BaseOptimizer : IExpressionVisitor<Expression>
     {
-        public Expression Tree { get; }
+        public Expression Tree         { get; }
+        public bool DidAnyOptimization { get; protected set; }
         //---------------------------------------------------------------------
         protected BaseOptimizer(Expression tree) => this.Tree = tree;
         //---------------------------------------------------------------------
