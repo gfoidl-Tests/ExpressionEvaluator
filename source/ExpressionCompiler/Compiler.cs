@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ExpressionCompiler.Expressions;
 using ExpressionCompiler.Parser;
 
@@ -27,7 +28,11 @@ namespace ExpressionCompiler
             var reader      = new StringReader(expression);
             var lexer       = new Lexer(new PositionTextReader(reader));
             var parser      = new Parser.Parser();
-            var tokens      = lexer.ReadTokens();
+#if DEBUG
+            var tokens = lexer.ReadTokens().ToArray();
+#else
+            var token = lexer.ReadTokens();
+#endif
             var result      = parser.Parse(tokens);
             this.Parameters = result.Parameters;
 

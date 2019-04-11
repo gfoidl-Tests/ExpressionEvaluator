@@ -1,4 +1,6 @@
-﻿namespace TinyStackMachine
+﻿using System.Linq;
+
+namespace TinyStackMachine
 {
     public class VirtualMachine
     {
@@ -12,8 +14,12 @@
         //---------------------------------------------------------------------
         public void Execute(string tsmFile)
         {
-            var loader       = new Loader(tsmFile);
+            var loader = new Loader(tsmFile);
+#if DEBUG
+            var instructions = loader.LoadFormula().ToArray();
+#else
             var instructions = loader.LoadFormula();
+#endif
 
             this.Cpu.Process(instructions);
         }
